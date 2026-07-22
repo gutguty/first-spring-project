@@ -9,18 +9,18 @@ import java.util.List;
 
 @Service
 public class CardService {
-    private static List<Card> cards = new ArrayList<>();
+    private List<Card> cards = new ArrayList<>();
 
-    static {
-        cards.add(new Card(1L, "Shoes", 1000, "shoes.png"));
-        cards.add(new Card(2L, "Shirts", 2000, "shirts.png"));
-        cards.add(new Card(3L, "Trousers", 3000, "trousers.png"));
-        cards.add(new Card(4L, "Hats", 4000, "hats.png"));
-        cards.add(new Card(5L, "Sweater", 2500, "sweater.png"));
-        cards.add(new Card(6L, "Belt", 3200, "belt.png"));
-        cards.add(new Card(7L, "Bag", 500, "bag.png"));
-        cards.add(new Card(8L, "Gloves", 750, "gloves.png"));
-    }
+//    static {
+//        cards.add(new Card(1L, "Shoes", 1000, "shoes.png"));
+//        cards.add(new Card(2L, "Shirts", 2000, "shirts.png"));
+//        cards.add(new Card(3L, "Trousers", 3000, "trousers.png"));
+//        cards.add(new Card(4L, "Hats", 4000, "hats.png"));
+//        cards.add(new Card(5L, "Sweater", 2500, "sweater.png"));
+//        cards.add(new Card(6L, "Belt", 3200, "belt.png"));
+//        cards.add(new Card(7L, "Bag", 500, "bag.png"));
+//        cards.add(new Card(8L, "Gloves", 750, "gloves.png"));
+//    }
 
     public List<Card> getAll() {
         return cards;
@@ -34,11 +34,11 @@ public class CardService {
     }
 
     public Card createCard(Card card) {
-        if(card.getTitle() == null || card.getTitle().isEmpty()) {
+        if(card.getTitle() == null || card.getTitle().isBlank()) {
             throw new IllegalArgumentException("Title is required");
         }
 
-        if (card.getPrice() == null || card.getPrice() < 0) {
+        if (card.getPrice() == null || card.getPrice() <= 0) {
             throw new IllegalArgumentException("Price is invalid");
         }
 
