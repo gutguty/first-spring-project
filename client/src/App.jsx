@@ -2,7 +2,6 @@ import React from 'react';
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import MainLayout from "@/layouts/MainLayout";
 import AdminLayout from "@/layouts/AdminLayout";
-import './App.css'
 
 
 const App = () => {

@@ -16,7 +16,9 @@ const Modal = ({ onClose, onSave, card }) => {
             <div className="modal__overlay" onClick={onClose}></div>
             <div className="modal__inner">
                 <button className="modal__button-close" onClick={onClose}>X</button>
-                <h2 className="modal__header">Создать карточку</h2>
+                <h2 className="modal__header">
+                    {card ? "Обновить карточку" : "Создать карточку"}
+                </h2>
 
                 <label className="modal__label">
                     Название

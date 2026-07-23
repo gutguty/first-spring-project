@@ -12,14 +12,14 @@ public class CardService {
     private static List<Card> cards = new ArrayList<>();
 
     static {
-        cards.add(new Card(1L, "Shoes", 1000, "shoes.png"));
-        cards.add(new Card(2L, "Shirts", 2000, "shirts.png"));
-        cards.add(new Card(3L, "Trousers", 3000, "trousers.png"));
-        cards.add(new Card(4L, "Hats", 4000, "hats.png"));
-        cards.add(new Card(5L, "Sweater", 2500, "sweater.png"));
-        cards.add(new Card(6L, "Belt", 3200, "belt.png"));
-        cards.add(new Card(7L, "Bag", 500, "bag.png"));
-        cards.add(new Card(8L, "Gloves", 750, "gloves.png"));
+        cards.add(new Card(1L, "Shoes", 1000, "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzHOCK4Kxge3YHD3ZPcRyHYpw3noooeVpfSjUiSziSaA&s=10"));
+        cards.add(new Card(2L, "Shirts", 2000, "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzHOCK4Kxge3YHD3ZPcRyHYpw3noooeVpfSjUiSziSaA&s=10"));
+        cards.add(new Card(3L, "Trousers", 3000, "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzHOCK4Kxge3YHD3ZPcRyHYpw3noooeVpfSjUiSziSaA&s=10"));
+        cards.add(new Card(4L, "Hats", 4000, "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzHOCK4Kxge3YHD3ZPcRyHYpw3noooeVpfSjUiSziSaA&s=10"));
+        cards.add(new Card(5L, "Sweater", 2500, "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzHOCK4Kxge3YHD3ZPcRyHYpw3noooeVpfSjUiSziSaA&s=10"));
+        cards.add(new Card(6L, "Belt", 3200, "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzHOCK4Kxge3YHD3ZPcRyHYpw3noooeVpfSjUiSziSaA&s=10"));
+        cards.add(new Card(7L, "Bag", 500, "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzHOCK4Kxge3YHD3ZPcRyHYpw3noooeVpfSjUiSziSaA&s=10"));
+        cards.add(new Card(8L, "Gloves", 750, "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzHOCK4Kxge3YHD3ZPcRyHYpw3noooeVpfSjUiSziSaA&s=10"));
     }
 
     public List<Card> getAll() {

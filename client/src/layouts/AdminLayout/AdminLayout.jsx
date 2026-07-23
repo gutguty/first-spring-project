@@ -59,34 +59,37 @@ const AdminLayout = () => {
                 )}
                 <table className="admin__table">
                     <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Title</th>
-                        <th>Price</th>
-                        <th>Image</th>
+                    <tr className="admin__table-row">
+                        <th className="admin__table-head">ID</th>
+                        <th className="admin__table-head">Title</th>
+                        <th className="admin__table-head">Price</th>
+                        <th className="admin__table-head">Image</th>
+                        <th className="admin__table-head">Действия</th>
                     </tr>
                     </thead>
                     <tbody>
                     {cards.map((card) => (
-                        <tr key={card.id}>
-                            <td>{card.id}</td>
-                            <td>{card.title}</td>
-                            <td>{card.price}</td>
-                            <td>{card.image}</td>
-                            <td>
+                        <tr className="admin__table-row" key={card.id}>
+                            <td className="admin__table-cell">{card.id}</td>
+                            <td className="admin__table-cell">{card.title}</td>
+                            <td className="admin__table-cell">{card.price}</td>
+                            <td className="admin__table-cell">{card.image}</td>
+                            <td className="admin__table-cell admin__table-cell--actions">
                                 <button
+                                    className="admin__table-button"
                                     onClick={() => setEditCard(card)}
                                 >
                                     Обновить
                                 </button>
                                 <button
+                                    className="admin__table-button"
                                     onClick={() => handleDeleteCard(card.id)}
                                 >
                                     Удалить
                                 </button>
                             </td>
                         </tr>
-                        ))}
+                    ))}
                     </tbody>
                 </table>
             </section>
