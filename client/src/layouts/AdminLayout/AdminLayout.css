@@ -1,0 +1,53 @@
+.admin {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 24px;
+}
+
+.admin__title {
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 24px;
+}
+
+.admin__button {
+    padding: 10px 20px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: var(--radius);
+    margin-bottom: 24px;
+}
+
+.admin__table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    overflow: hidden;
+}
+
+.admin__table-head,
+.admin__table-cell {
+    padding: 14px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--bg);
+    vertical-align: middle;
+}
+
+.admin__table-row:last-child .admin__table-cell {
+    border-bottom: none;
+}
+
+.admin__table-cell--actions {
+    white-space: nowrap;
+    gap: 8px;
+}
+
+.admin__table-button {
+    padding: 6px 12px;
+    border-radius: var(--radius);
+    font-size: 13px;
+    margin-right: 8px;
+    background: var(--accent);
+    color: #fff;
+}

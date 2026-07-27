@@ -1,10 +1,6 @@
 package ru.gazprom.server.controller;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.gazprom.server.exception.ExceptionResponse;
-import ru.gazprom.server.exception.CardNotFoundException;
 import ru.gazprom.server.model.Card;
 import ru.gazprom.server.service.CardService;
 
@@ -45,8 +41,5 @@ public class CardController {
         return cardService.updateCard(id, card);
     }
 
-    @ExceptionHandler(CardNotFoundException.class)
-    public ResponseEntity<ExceptionResponse> handleCardNotFoundException(CardNotFoundException exception) {
-        return new ResponseEntity<>(new ExceptionResponse(LocalDateTime.now(), exception.getMessage(), "Card not found"), HttpStatus.NOT_FOUND);
-    }
+
 }

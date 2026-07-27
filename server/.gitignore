@@ -31,3 +31,9 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Client ###
+client/node_modules/
+client/dist/
+client/.env
+.idea/

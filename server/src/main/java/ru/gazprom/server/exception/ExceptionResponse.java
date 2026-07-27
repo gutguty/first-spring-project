@@ -2,7 +2,6 @@ package ru.gazprom.server.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
 

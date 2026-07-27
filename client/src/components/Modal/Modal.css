@@ -1,0 +1,59 @@
+.modal {
+    position: fixed;
+    inset: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.modal__inner {
+    position: relative;
+    z-index: 1;
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-width: 400px;
+}
+
+.modal__label {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 14px;
+}
+
+.modal__input {
+    padding: 10px;
+    background: var(--bg);
+    border-radius: var(--radius);
+    color: var(--text);
+    font-size: 14px;
+    border: none;
+}
+
+.modal__button-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: transparent;
+    color: var(--text);
+    font-size: 18px;
+}
+
+.modal__button-save {
+    padding: 12px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: var(--radius);
+    font-weight: 500;
+}
