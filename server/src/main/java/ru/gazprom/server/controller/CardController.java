@@ -1,10 +1,10 @@
 package ru.gazprom.server.controller;
 
 import org.springframework.web.bind.annotation.*;
+import ru.gazprom.server.dto.CardDTO;
 import ru.gazprom.server.model.Card;
 import ru.gazprom.server.service.CardService;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -17,17 +17,17 @@ public class CardController {
     }
 
     @GetMapping("/cards")
-    public List<Card> getAll() {
+    public List<CardDTO> getAll() {
         return cardService.getAll();
     }
 
     @GetMapping("/cards/{id}")
-    public Card getCard(@PathVariable Long id) {
+    public CardDTO getCard(@PathVariable Long id) {
         return cardService.getCard(id);
     }
 
     @PostMapping("/cards")
-    public Card createCard(@RequestBody Card card) {
+    public CardDTO createCard(@RequestBody Card card) {
         return cardService.createCard(card);
     }
 
@@ -37,7 +37,7 @@ public class CardController {
     }
 
     @PutMapping("/cards/{id}")
-    public Card updateCard(@PathVariable Long id, @RequestBody Card card) {
+    public CardDTO updateCard(@PathVariable Long id, @RequestBody Card card) {
         return cardService.updateCard(id, card);
     }
 
