@@ -1,69 +1,64 @@
 package ru.gazprom.server.service;
 
+import ru.gazprom.server.dto.CardDTO;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.gazprom.server.exception.CardNotFoundException;
 import ru.gazprom.server.model.Card;
+import ru.gazprom.server.repository.CardRepository;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class CardService {
-    private static List<Card> cards = new ArrayList<>();
 
-    static {
-        cards.add(new Card(1L, "Shoes", 1000, "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzHOCK4Kxge3YHD3ZPcRyHYpw3noooeVpfSjUiSziSaA&s=10"));
-        cards.add(new Card(2L, "Shirts", 2000, "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzHOCK4Kxge3YHD3ZPcRyHYpw3noooeVpfSjUiSziSaA&s=10"));
-        cards.add(new Card(3L, "Trousers", 3000, "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzHOCK4Kxge3YHD3ZPcRyHYpw3noooeVpfSjUiSziSaA&s=10"));
-        cards.add(new Card(4L, "Hats", 4000, "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzHOCK4Kxge3YHD3ZPcRyHYpw3noooeVpfSjUiSziSaA&s=10"));
-        cards.add(new Card(5L, "Sweater", 2500, "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzHOCK4Kxge3YHD3ZPcRyHYpw3noooeVpfSjUiSziSaA&s=10"));
-        cards.add(new Card(6L, "Belt", 3200, "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzHOCK4Kxge3YHD3ZPcRyHYpw3noooeVpfSjUiSziSaA&s=10"));
-        cards.add(new Card(7L, "Bag", 500, "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzHOCK4Kxge3YHD3ZPcRyHYpw3noooeVpfSjUiSziSaA&s=10"));
-        cards.add(new Card(8L, "Gloves", 750, "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzHOCK4Kxge3YHD3ZPcRyHYpw3noooeVpfSjUiSziSaA&s=10"));
+    private final CardRepository cardRepository;
+
+    public CardDTO toDto(Card card) {
+        return new CardDTO(
+                card.getId(),
+                card.getTitle(),
+                card.getPrice(),
+                card.getImage()
+        );
     }
 
-    public List<Card> getAll() {
-        return cards;
+    public List<CardDTO> getAll() {
+        return cardRepository.findAll()
+                .stream()
+                .map(this::toDto)
+                .collect(Collectors.toList());
     }
 
-    public Card getCard(Long id) {
-        return cards.stream()
-                .filter(card -> card.getId().equals(id))
-                .findAny()
+    public CardDTO getCard(Long id) {
+        return cardRepository.findById(id)
+                .map(this::toDto)
                 .orElseThrow(() -> new CardNotFoundException("Card with " + id + " id not found"));
     }
 
-    public Card createCard(Card card) {
-        if(card.getTitle() == null || card.getTitle().isBlank()) {
-            throw new IllegalArgumentException("Title is required");
-        }
-
-        if (card.getPrice() == null || card.getPrice() <= 0) {
-            throw new IllegalArgumentException("Price is invalid");
-        }
-
-        card.setId((long) cards.size() + 1);
-        cards.add(card);
-        return card;
+    public CardDTO createCard(Card card) {
+        Card savedCard = cardRepository.save(card);
+        return toDto(savedCard);
     }
 
     public void deleteCard(Long id) {
-        boolean removed = cards.removeIf(card -> card.getId().equals(id));
-        if (!removed) {
+        if (!cardRepository.existsById(id)) {
             throw new CardNotFoundException("Card with " + id + " id not found");
         }
+        cardRepository.deleteById(id);
     }
 
-    public Card updateCard(Long id, Card newCard) {
-        Card existCard = cards.stream()
-                .filter(card -> card.getId().equals(id))
-                .findAny()
-                .orElseThrow(() -> new CardNotFoundException("Error update card: id - " + id + " card - " + newCard));
+    public CardDTO updateCard(Long id, Card newCard) {
+        Card existCard = cardRepository.findById(id)
+                .orElseThrow(() -> new CardNotFoundException(
+                        "Card with " + id + " not found"));
 
-        int index = cards.indexOf(existCard);
-        newCard.setId(id);
-        cards.set(index, newCard);
+        existCard.setTitle(newCard.getTitle());
+        existCard.setPrice(newCard.getPrice());
+        existCard.setImage(newCard.getImage());
 
-        return newCard;
+        return toDto(cardRepository.save(existCard));
     }
 }
