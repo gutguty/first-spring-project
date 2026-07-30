@@ -1,7 +1,10 @@
 import React from 'react';
 import './CardModal.css'
+import {useNavigate} from "react-router-dom";
 
 const CardModal = ({card, onClose}) => {
+    const navigate = useNavigate()
+
     return (
         <div className="cardModal">
             <div className="cardModal__overlay" onClick={() => onClose()}></div>
@@ -17,7 +20,7 @@ const CardModal = ({card, onClose}) => {
                     <div className="cardModal__title">{card.title}</div>
                     <button
                         className="cardModal__button"
-                        onClick={() => {console.log("BUY LATER")}}
+                        onClick={() => navigate(`/cards/${card.id}`)}
                         aria-label="Buy"
                     >
                         Купить
