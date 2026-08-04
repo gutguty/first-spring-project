@@ -1,9 +1,11 @@
 package ru.gazprom.server.service;
 
+import jakarta.transaction.Transactional;
 import ru.gazprom.server.dto.CardDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.gazprom.server.exception.CardNotFoundException;
+import ru.gazprom.server.mapper.CardMapper;
 import ru.gazprom.server.model.Card;
 import ru.gazprom.server.repository.CardRepository;
 
@@ -16,33 +18,36 @@ public class CardService {
 
     private final CardRepository cardRepository;
 
-    public CardDTO toDto(Card card) {
-        return new CardDTO(
-                card.getId(),
-                card.getTitle(),
-                card.getPrice(),
-                card.getImage()
-        );
-    }
+    private final CardMapper cardMapper;
 
     public List<CardDTO> getAll() {
         return cardRepository.findAll()
                 .stream()
-                .map(this::toDto)
+                .map(cardMapper::toDto)
                 .collect(Collectors.toList());
     }
 
     public CardDTO getCard(Long id) {
         return cardRepository.findById(id)
-                .map(this::toDto)
+                .map(cardMapper::toDto)
                 .orElseThrow(() -> new CardNotFoundException("Card with " + id + " id not found"));
     }
 
     public CardDTO createCard(Card card) {
+        if (card.getTitle() == null || card.getTitle().isBlank()) {
+            throw new IllegalArgumentException("Title is required");
+
+        }
+
+        if (card.getPrice() == null || card.getPrice() <= 0) {
+            throw new IllegalArgumentException("Price is invalid");
+        }
+
         Card savedCard = cardRepository.save(card);
-        return toDto(savedCard);
+        return cardMapper.toDto(savedCard);
     }
 
+    @Transactional
     public void deleteCard(Long id) {
         if (!cardRepository.existsById(id)) {
             throw new CardNotFoundException("Card with " + id + " id not found");
@@ -50,6 +55,7 @@ public class CardService {
         cardRepository.deleteById(id);
     }
 
+    @Transactional
     public CardDTO updateCard(Long id, Card newCard) {
         Card existCard = cardRepository.findById(id)
                 .orElseThrow(() -> new CardNotFoundException(
@@ -59,6 +65,6 @@ public class CardService {
         existCard.setPrice(newCard.getPrice());
         existCard.setImage(newCard.getImage());
 
-        return toDto(cardRepository.save(existCard));
+        return cardMapper.toDto(cardRepository.save(existCard));
     }
 }
