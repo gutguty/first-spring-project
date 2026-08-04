@@ -2,20 +2,16 @@ package ru.gazprom.server.model;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
+@Data
 @Entity
-@Table(name="cards")
+@Table(name = "cards")
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
 public class Card {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
