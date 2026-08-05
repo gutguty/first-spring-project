@@ -1,5 +1,6 @@
 package ru.gazprom.server.controller;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.gazprom.server.dto.CardDTO;
 import ru.gazprom.server.model.Card;
@@ -27,6 +28,7 @@ public class CardController {
     }
 
     @PostMapping("/cards")
+    @ResponseStatus(HttpStatus.CREATED)
     public CardDTO createCard(@RequestBody Card card) {
         return cardService.createCard(card);
     }
