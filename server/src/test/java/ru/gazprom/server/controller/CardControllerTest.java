@@ -73,7 +73,7 @@ class CardControllerTest {
 
     @Test
     void createCard() throws Exception {
-        Card request = new Card(null,"Boots", 500, "boots.png", null);
+        Card request = new Card(null,"Boots", 500, "boots.png", null, null);
         String json = objectMapper.writeValueAsString(request);
         CardDTO response = new CardDTO(1L,"Boots", 500, "boots.png");
 
@@ -101,7 +101,7 @@ class CardControllerTest {
 
     @Test
     void updateCard() throws Exception {
-        Card request = new Card(null, "Boots", 500, "boots.png", null);
+        Card request = new Card(null, "Boots", 500, "boots.png", null, null);
 
         String json = objectMapper.writeValueAsString(request);
         CardDTO response = new CardDTO(1L,"Boots2", 5000, "boots2.png");

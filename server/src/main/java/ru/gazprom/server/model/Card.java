@@ -28,4 +28,8 @@ public class Card {
 
     @CreationTimestamp
     private LocalDateTime date;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="category_id")
+    private Category category;
 }

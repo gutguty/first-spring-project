@@ -2,7 +2,6 @@ package ru.gazprom.server.service;
 
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -27,15 +26,15 @@ public class CardServiceTest {
     @BeforeEach
     void setCards() {
         cardRepository.deleteAll();
-        cardRepository.save(new Card(null, "Shoes", 1000, "shoes.png", null));
-        cardRepository.save(new Card(null, "Shirts", 2000, "shirts.png", null));
-        cardRepository.save(new Card(null,"Trousers", 3000, "trousers.png", null));
+        cardRepository.save(new Card(null, "Shoes", 1000, "shoes.png", null, null));
+        cardRepository.save(new Card(null, "Shirts", 2000, "shirts.png", null, null));
+        cardRepository.save(new Card(null,"Trousers", 3000, "trousers.png", null, null));
     }
 
     //Create test card
     @Test
     void createCardSuccess() {
-        CardDTO created = cardService.createCard(new Card(null, "Jacket", 5000, "jacket.png", null));
+        CardDTO created = cardService.createCard(new Card(null, "Jacket", 5000, "jacket.png", null, null));
         assertEquals(4, cardService.getAll().size());
         assertEquals("Jacket", created.getTitle());
         assertNotNull(created.getId());
@@ -44,37 +43,37 @@ public class CardServiceTest {
     @Test
     void createCardEmptyTitle() {
         assertThrows(IllegalArgumentException.class,
-                () -> cardService.createCard(new Card(null, "", 2000, "shirts.png", null)));
+                () -> cardService.createCard(new Card(null, "", 2000, "shirts.png", null, null)));
     }
 
     @Test
     void createCardSpaceTitle() {
         assertThrows(IllegalArgumentException.class,
-                () -> cardService.createCard(new Card(null, "    ", 2000, "shirts.png", null)));
+                () -> cardService.createCard(new Card(null, "    ", 2000, "shirts.png", null, null)));
     }
 
     @Test
     void createCardZeroPrice() {
         assertThrows(IllegalArgumentException.class,
-                () -> cardService.createCard(new Card(null, "Shirts", 0, "shirts.png", null)));
+                () -> cardService.createCard(new Card(null, "Shirts", 0, "shirts.png", null, null)));
     }
 
     @Test
     void createCardNegativePrice() {
         assertThrows(IllegalArgumentException.class,
-                () -> cardService.createCard(new Card(null, "Shirts", -100, "shirts.png", null)));
+                () -> cardService.createCard(new Card(null, "Shirts", -100, "shirts.png", null, null)));
     }
 
     @Test
     void createCardNullTitle() {
         assertThrows(IllegalArgumentException.class,
-                () -> cardService.createCard(new Card(null, null, 1000, "shoes.png", null)));
+                () -> cardService.createCard(new Card(null, null, 1000, "shoes.png", null, null)));
     }
 
     @Test
     void createCardNullPrice() {
         assertThrows(IllegalArgumentException.class,
-                () -> cardService.createCard(new Card(null, "Shirt", null, "shoes.png", null)));
+                () -> cardService.createCard(new Card(null, "Shirt", null, "shoes.png", null, null)));
     }
 
     //getTestCard
@@ -87,7 +86,7 @@ public class CardServiceTest {
 
     @Test
     void getCardById() {
-        Long id = cardRepository.findAll().get(0).getId();
+        Long id = cardRepository.findAll().getFirst().getId();
         CardDTO result = cardService.getCard(id);
         assertEquals("Shoes", result.getTitle());
         assertEquals(1000, result.getPrice());
@@ -102,17 +101,17 @@ public class CardServiceTest {
     //deleteTestCard
     @Test
     void deleteCardById() {
-        Long id = cardRepository.findAll().get(0).getId();
+        Long id = cardRepository.findAll().getFirst().getId();
         cardService.deleteCard(id);
         assertEquals(2, cardService.getAll().size());
     }
 
     @Test
     void deleteCardByIdNotFoundCard() {
-        Long id = cardRepository.findAll().get(0).getId();
+        Long id = cardRepository.findAll().getFirst().getId();
         cardService.deleteCard(id);
         assertThrows(CardNotFoundException.class,
-                () -> cardService.getCard(1L));
+                () -> cardService.getCard(id));
     }
 
     @Test
@@ -124,8 +123,8 @@ public class CardServiceTest {
     //updateTestCard
     @Test
     void updateCard() {
-        Long id = cardRepository.findAll().get(0).getId();
-        var newCard = new Card(null, "Laptop", 15000, "laptop.png", null);
+        Long id = cardRepository.findAll().getFirst().getId();
+        var newCard = new Card(null, "Laptop", 15000, "laptop.png", null, null);
         var updatedCard = cardService.updateCard(id, newCard);
         assertEquals(id, updatedCard.getId());
         assertEquals("Laptop", updatedCard.getTitle());
@@ -134,7 +133,7 @@ public class CardServiceTest {
 
     @Test
     void updateInvalidId() {
-        var expected = new Card(2L, "Laptop", 15000, "laptop.png", null);
+        var expected = new Card(2L, "Laptop", 15000, "laptop.png", null, null);
 
         assertThrows(CardNotFoundException.class,
                 () -> cardService.updateCard(999L, expected));
