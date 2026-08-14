@@ -1,8 +1,6 @@
 HELP.md
-target/
-.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
+.gradle/
+gradle/wrapper/gradle-wrapper.jar
 
 ### STS ###
 .apt_generated
@@ -37,3 +35,5 @@ client/node_modules/
 client/dist/
 client/.env
 .idea/
+
+.env

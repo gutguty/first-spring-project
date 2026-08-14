@@ -1,16 +1,31 @@
 package ru.gazprom.server.model;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 
 @Data
+@Entity
+@Table(name = "cards")
 @NoArgsConstructor
 @AllArgsConstructor
-public class Card {
+public class Card extends Audit {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false)
     private String title;
+
+    @Column(nullable = false)
     private Integer price;
+
+    @Column(length = 500)
     private String image;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="category_id")
+    private Category category;
 }

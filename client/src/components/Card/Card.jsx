@@ -15,7 +15,7 @@ const Card = ({title, price, image, onCardClick}) => {
                     className="card__button"
                     onClick={() => onCardClick()}
                 >
-                    Купить
+                    Показать
                 </button>
             </div>
         </div>

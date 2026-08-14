@@ -1,0 +1,38 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-cards
+      author: Bogdan Guty
+      changes:
+        - createTable:
+            tableName: cards
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: title
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: price
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: image
+                  type: varchar(500)
+              - column:
+                  name: date
+                  type: timestamp
+              - column:
+                  name: category_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: category_cards_fk
+                    referencedTableName: categories
+                    referencedColumnNames: id

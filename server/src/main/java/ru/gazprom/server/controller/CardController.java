@@ -1,33 +1,33 @@
 package ru.gazprom.server.controller;
 
+import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import ru.gazprom.server.dto.CardDTO;
 import ru.gazprom.server.model.Card;
 import ru.gazprom.server.service.CardService;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api")
+@AllArgsConstructor
 public class CardController {
     private final CardService cardService;
 
-    public CardController(CardService cardService) {
-        this.cardService = cardService;
-    }
-
     @GetMapping("/cards")
-    public List<Card> getAll() {
-        return cardService.getAll();
+    public List<CardDTO> getAllCards() {
+        return cardService.getAllCards();
     }
 
     @GetMapping("/cards/{id}")
-    public Card getCard(@PathVariable Long id) {
-        return cardService.getCard(id);
+    public CardDTO getCardById(@PathVariable Long id) {
+        return cardService.getCardById(id);
     }
 
     @PostMapping("/cards")
-    public Card createCard(@RequestBody Card card) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public CardDTO createCard(@RequestBody Card card) {
         return cardService.createCard(card);
     }
 
@@ -37,8 +37,8 @@ public class CardController {
     }
 
     @PutMapping("/cards/{id}")
-    public Card updateCard(@PathVariable Long id, @RequestBody Card card) {
-        return cardService.updateCard(id, card);
+    public CardDTO updateCardById(@PathVariable Long id, @RequestBody Card card) {
+        return cardService.updateCardById(id, card);
     }
 
 

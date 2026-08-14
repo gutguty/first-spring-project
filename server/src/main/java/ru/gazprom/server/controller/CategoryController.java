@@ -1,0 +1,45 @@
+package ru.gazprom.server.controller;
+
+import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+import ru.gazprom.server.dto.CategoryDTO;
+import ru.gazprom.server.model.Category;
+import ru.gazprom.server.service.CategoryService;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api")
+@AllArgsConstructor
+public class CategoryController {
+    private final CategoryService categoryService;
+
+    @GetMapping("/categories")
+    public List<CategoryDTO> getAllCategories() {
+        return categoryService.getAllCategories();
+    }
+
+    @GetMapping("/categories/{id}")
+    public CategoryDTO getCategoryById(@PathVariable Long id) {
+        return categoryService.getCategoryById(id);
+    }
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping("/categories")
+    public CategoryDTO createCategory(@RequestBody Category category) {
+        return categoryService.createCategory(category);
+    }
+
+    @DeleteMapping("/categories/{id}")
+    public void deleteCategory(@PathVariable Long id) {
+        categoryService.deleteCategory(id);
+    }
+
+    @PutMapping("/categories/{id}")
+    public CategoryDTO updateCategoryById(@PathVariable Long id, @RequestBody Category category) {
+        return categoryService.updateCategoryById(id, category);
+    }
+
+
+}
