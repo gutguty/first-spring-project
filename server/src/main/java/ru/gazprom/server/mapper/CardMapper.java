@@ -7,7 +7,7 @@ import ru.gazprom.server.model.Card;
 
 @Component
 public class CardMapper {
-    public CardDTO toDto(Card card) {
+    public CardDTO CardToDto(Card card) {
         return new CardDTO(
                 card.getId(),
                 card.getTitle(),

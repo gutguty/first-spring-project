@@ -5,9 +5,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class CardDTO {
+public class CategoryDTO {
     private Long id;
-    private String title;
-    private Integer price;
-    private String image;
+    private String name;
 }

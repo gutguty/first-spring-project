@@ -15,6 +15,11 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(new ExceptionResponse(LocalDateTime.now(), exception.getMessage(), "Card not found"), HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(CategoryNotFoundException.class)
+    public ResponseEntity<ExceptionResponse> handleCategoryNotFoundException(CategoryNotFoundException exception) {
+        return new ResponseEntity<>(new ExceptionResponse(LocalDateTime.now(), exception.getMessage(), "Category not found"), HttpStatus.NOT_FOUND);
+    }
+
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<ExceptionResponse> handleInvalidArguments(IllegalArgumentException exception) {
         return new ResponseEntity<>(new ExceptionResponse(LocalDateTime.now(), exception.getMessage(), "Invalid arguments"), HttpStatus.BAD_REQUEST);

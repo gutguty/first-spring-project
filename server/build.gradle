@@ -26,7 +26,9 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'com.h2database:h2'
     testImplementation 'org.springframework.boot:spring-boot-webmvc-test'
-    implementation("org.springframework.boot:spring-boot-starter-liquibase")}
+    implementation("org.springframework.boot:spring-boot-starter-liquibase")
+    testImplementation 'org.springframework.boot:spring-boot-data-jpa-test'
+}
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'

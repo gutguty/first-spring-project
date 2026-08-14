@@ -3,16 +3,15 @@ package ru.gazprom.server.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.time.LocalDateTime;
 
 @Data
 @Entity
 @Table(name = "cards")
 @NoArgsConstructor
 @AllArgsConstructor
-public class Card {
+public class Card extends Audit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,9 +24,6 @@ public class Card {
 
     @Column(length = 500)
     private String image;
-
-    @CreationTimestamp
-    private LocalDateTime date;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="category_id")

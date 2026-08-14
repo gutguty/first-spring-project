@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import ru.gazprom.server.exception.CardNotFoundException;
 import ru.gazprom.server.mapper.CardMapper;
 import ru.gazprom.server.model.Card;
+import ru.gazprom.server.model.Category;
 import ru.gazprom.server.repository.CardRepository;
 
 import java.util.List;
@@ -17,22 +18,22 @@ import java.util.stream.Collectors;
 public class CardService {
 
     private final CardRepository cardRepository;
-
     private final CardMapper cardMapper;
 
-    public List<CardDTO> getAll() {
+    public List<CardDTO> getAllCards() {
         return cardRepository.findAll()
                 .stream()
-                .map(cardMapper::toDto)
+                .map(cardMapper::CardToDto)
                 .collect(Collectors.toList());
     }
 
-    public CardDTO getCard(Long id) {
+    public CardDTO getCardById(Long id) {
         return cardRepository.findById(id)
-                .map(cardMapper::toDto)
+                .map(cardMapper::CardToDto)
                 .orElseThrow(() -> new CardNotFoundException("Card with " + id + " id not found"));
     }
 
+    @Transactional
     public CardDTO createCard(Card card) {
         if (card.getTitle() == null || card.getTitle().isBlank()) {
             throw new IllegalArgumentException("Title is required");
@@ -44,10 +45,9 @@ public class CardService {
         }
 
         Card savedCard = cardRepository.save(card);
-        return cardMapper.toDto(savedCard);
+        return cardMapper.CardToDto(savedCard);
     }
 
-    @Transactional
     public void deleteCard(Long id) {
         if (!cardRepository.existsById(id)) {
             throw new CardNotFoundException("Card with " + id + " id not found");
@@ -56,7 +56,7 @@ public class CardService {
     }
 
     @Transactional
-    public CardDTO updateCard(Long id, Card newCard) {
+    public CardDTO updateCardById(Long id, Card newCard) {
         Card existCard = cardRepository.findById(id)
                 .orElseThrow(() -> new CardNotFoundException(
                         "Card with " + id + " not found"));
@@ -65,6 +65,8 @@ public class CardService {
         existCard.setPrice(newCard.getPrice());
         existCard.setImage(newCard.getImage());
 
-        return cardMapper.toDto(cardRepository.save(existCard));
+        Card updatedCard = cardRepository.save(existCard);
+
+        return cardMapper.CardToDto(updatedCard);
     }
 }

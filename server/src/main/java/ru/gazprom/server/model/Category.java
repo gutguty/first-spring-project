@@ -13,15 +13,12 @@ import java.util.List;
 @Table(name = "categories")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Category {
+public class Category extends Audit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false, unique = true)
     private String name;
-
-    @OneToMany(mappedBy = "category")
-    private List<Card> cards = new ArrayList<>();
 
 }
