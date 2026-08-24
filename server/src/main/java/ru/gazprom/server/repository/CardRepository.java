@@ -16,4 +16,5 @@ public interface CardRepository extends JpaRepository<Card, Long> {
 
     @Query("SELECT c FROM Card c WHERE c.price BETWEEN :min AND :max")
     List<Card> findByPriceBetween(@Param("min") Integer min, @Param("max") Integer max);
+
 }

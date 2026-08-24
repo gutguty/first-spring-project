@@ -25,11 +25,18 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(new ExceptionResponse(LocalDateTime.now(), exception.getMessage(), "Invalid arguments"), HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(InvalidStockResponseException.class)
+    public ResponseEntity<ExceptionResponse> handleInvalidStockResponseException(InvalidStockResponseException exception) {
+        return new ResponseEntity<>(new ExceptionResponse(LocalDateTime.now(), exception.getMessage(), "Stock response is incorrect"), HttpStatus.BAD_GATEWAY);
+    }
+
+    @ExceptionHandler(WebCustomClientException.class)
+    public ResponseEntity<ExceptionResponse> handleWebClientException(WebCustomClientException exception) {
+        return new ResponseEntity<>(new ExceptionResponse(LocalDateTime.now(), exception.getMessage(), "Service is failed"), exception.getHttpStatus());
+    }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ExceptionResponse> handleAll(Exception exception) {
         return new ResponseEntity<>(new ExceptionResponse(LocalDateTime.now(), exception.getMessage(), "Internal server error"), HttpStatus.INTERNAL_SERVER_ERROR);
     }
-
-
 }

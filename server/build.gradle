@@ -28,7 +28,9 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-webmvc-test'
     implementation("org.springframework.boot:spring-boot-starter-liquibase")
     testImplementation 'org.springframework.boot:spring-boot-data-jpa-test'
-}
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'io.micrometer:micrometer-registry-prometheus'
+    implementation("org.springframework.boot:spring-boot-starter-webflux:4.1.0")}
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'

@@ -1,0 +1,125 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2
+      author: Bogdan Guty
+      changes:
+        - insert:
+            tableName: stocks
+            columns:
+              - column: { name: card_id, valueNumeric: "1" }
+              - column: { name: quantity, valueNumeric: "15" }
+              - column: { name: reserved, valueNumeric: "0" }
+        - insert:
+            tableName: stocks
+            columns:
+              - column: { name: card_id, valueNumeric: "2" }
+              - column: { name: quantity, valueNumeric: "8" }
+              - column: { name: reserved, valueNumeric: "2" }
+        - insert:
+            tableName: stocks
+            columns:
+              - column: { name: card_id, valueNumeric: "3" }
+              - column: { name: quantity, valueNumeric: "20" }
+              - column: { name: reserved, valueNumeric: "0" }
+        - insert:
+            tableName: stocks
+            columns:
+              - column: { name: card_id, valueNumeric: "4" }
+              - column: { name: quantity, valueNumeric: "5" }
+              - column: { name: reserved, valueNumeric: "1" }
+        - insert:
+            tableName: stocks
+            columns:
+              - column: { name: card_id, valueNumeric: "5" }
+              - column: { name: quantity, valueNumeric: "12" }
+              - column: { name: reserved, valueNumeric: "3" }
+        - insert:
+            tableName: stocks
+            columns:
+              - column: { name: card_id, valueNumeric: "6" }
+              - column: { name: quantity, valueNumeric: "0" }
+              - column: { name: reserved, valueNumeric: "0" }
+        - insert:
+            tableName: stocks
+            columns:
+              - column: { name: card_id, valueNumeric: "7" }
+              - column: { name: quantity, valueNumeric: "25" }
+              - column: { name: reserved, valueNumeric: "5" }
+        - insert:
+            tableName: stocks
+            columns:
+              - column: { name: card_id, valueNumeric: "8" }
+              - column: { name: quantity, valueNumeric: "10" }
+              - column: { name: reserved, valueNumeric: "0" }
+        - insert:
+            tableName: stocks
+            columns:
+              - column: { name: card_id, valueNumeric: "9" }
+              - column: { name: quantity, valueNumeric: "18" }
+              - column: { name: reserved, valueNumeric: "4" }
+        - insert:
+            tableName: stocks
+            columns:
+              - column: { name: card_id, valueNumeric: "10" }
+              - column: { name: quantity, valueNumeric: "7" }
+              - column: { name: reserved, valueNumeric: "0" }
+        - insert:
+            tableName: stocks
+            columns:
+              - column: { name: card_id, valueNumeric: "11" }
+              - column: { name: quantity, valueNumeric: "30" }
+              - column: { name: reserved, valueNumeric: "10" }
+        - insert:
+            tableName: stocks
+            columns:
+              - column: { name: card_id, valueNumeric: "12" }
+              - column: { name: quantity, valueNumeric: "3" }
+              - column: { name: reserved, valueNumeric: "1" }
+        - insert:
+            tableName: stocks
+            columns:
+              - column: { name: card_id, valueNumeric: "13" }
+              - column: { name: quantity, valueNumeric: "22" }
+              - column: { name: reserved, valueNumeric: "0" }
+        - insert:
+            tableName: stocks
+            columns:
+              - column: { name: card_id, valueNumeric: "14" }
+              - column: { name: quantity, valueNumeric: "9" }
+              - column: { name: reserved, valueNumeric: "2" }
+        - insert:
+            tableName: stocks
+            columns:
+              - column: { name: card_id, valueNumeric: "15" }
+              - column: { name: quantity, valueNumeric: "14" }
+              - column: { name: reserved, valueNumeric: "0" }
+        - insert:
+            tableName: stocks
+            columns:
+              - column: { name: card_id, valueNumeric: "16" }
+              - column: { name: quantity, valueNumeric: "6" }
+              - column: { name: reserved, valueNumeric: "6" }
+        - insert:
+            tableName: stocks
+            columns:
+              - column: { name: card_id, valueNumeric: "17" }
+              - column: { name: quantity, valueNumeric: "40" }
+              - column: { name: reserved, valueNumeric: "15" }
+        - insert:
+            tableName: stocks
+            columns:
+              - column: { name: card_id, valueNumeric: "18" }
+              - column: { name: quantity, valueNumeric: "11" }
+              - column: { name: reserved, valueNumeric: "0" }
+        - insert:
+            tableName: stocks
+            columns:
+              - column: { name: card_id, valueNumeric: "19" }
+              - column: { name: quantity, valueNumeric: "2" }
+              - column: { name: reserved, valueNumeric: "0" }
+        - insert:
+            tableName: stocks
+            columns:
+              - column: { name: card_id, valueNumeric: "20" }
+              - column: { name: quantity, valueNumeric: "17" }
+              - column: { name: reserved, valueNumeric: "3" }

@@ -1,0 +1,58 @@
+###
+GET http://localhost:8080/api/cards
+
+###
+GET http://localhost:8080/api/categories
+
+###
+GET http://localhost:8080/api/cards/1
+
+###
+GET http://localhost:8080/api/time-server
+
+###
+POST http://localhost:8080/api/cards
+Content-Type: application/json
+
+{
+  "title": "InvalidStock3",
+  "price": 60000,
+  "image": "InvalidStock3.png"
+}
+
+###
+PUT http://localhost:8080/api/cards/23
+Content-Type: application/json
+
+{
+  "title": "InvalidStock",
+  "price": 60000,
+  "image": "InvalidStock.png"
+}
+
+###
+GET http://localhost:8080/api/cards/1/stock
+User-Auth: admin
+
+###
+GET http://localhost:8080/api/cards/999/stock
+User-Auth: admin
+
+###
+GET http://localhost:8080/api/cards/25/stock
+User-Auth: mockUser
+
+###
+GET http://localhost:8080/api/cards/3/stock
+User-Auth: bogdan
+
+//25
+###
+POST http://localhost:8080/api/cards/25/stock
+User-Auth: mockUser
+Content-Type: application/json
+
+{
+  "quantity": -10,
+  "reserved": 0
+}

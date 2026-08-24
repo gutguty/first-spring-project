@@ -7,3 +7,7 @@ databaseChangeLog:
       file: db/changelog/changesets/create-data.yaml
   - include:
       file: db/changelog/changesets/create-audit.yaml
+  - include:
+      file: db/changelog/changesets/add-data-categories.yaml
+  - include:
+      file: db/changelog/changesets/add-data-cards.yaml
