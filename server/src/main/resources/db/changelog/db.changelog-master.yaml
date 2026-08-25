@@ -11,3 +11,7 @@ databaseChangeLog:
       file: db/changelog/changesets/add-data-categories.yaml
   - include:
       file: db/changelog/changesets/add-data-cards.yaml
+  - include:
+      file: db/changelog/changesets/create-users-table.yaml
+  - include:
+      file: db/changelog/changesets/create-address-table.yaml

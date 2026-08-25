@@ -56,3 +56,33 @@ Content-Type: application/json
   "quantity": -10,
   "reserved": 0
 }
+
+###
+POST http://localhost:8080/api/users
+Content-Type: application/json
+
+{
+  "name": "admin"
+}
+
+###
+POST http://localhost:8080/api/addresses
+Content-Type: application/json
+
+{
+    "city": "Rostov",
+    "street": "Krasnoarmeyskaya",
+    "cityZone": "COUNTRYSIDE",
+    "user": {
+      "id": 3
+    }
+}
+
+###
+GET http://localhost:8080/api/delivery/price?cardId=1&addressId=1&deliveryType=COURIER
+
+###
+GET http://localhost:8080/api/delivery/price?cardId=1&addressId=1&deliveryType=PICK_UP
+
+###
+GET http://localhost:8080/api/delivery/price?cardId=5&addressId=1&deliveryType=COURIER
