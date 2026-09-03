@@ -1,0 +1,89 @@
+GET http://localhost:8080/api/cards
+
+<> 2026-08-29T055736.200.json
+
+###
+GET http://localhost:8080/api/order?cardId=2&addressId=1&deliveryType=COURIER&paymentType=PARTNER_CARD
+
+<> 2026-08-29T055620.404.json
+
+###
+GET http://localhost:8080/api/order?cardId=2&addressId=1&deliveryType=COURIER&paymentType=PARTNER_CARD
+
+<> 2026-08-29T055612.404.json
+
+###
+GET http://localhost:8080/api/delivery/price?cardId=5&addressId=1&deliveryType=COURIER
+
+<> 2026-08-29T055600.404.json
+
+###
+GET http://localhost:8082/api/stock/card/1
+User-Auth: admin
+
+<> 2026-08-29T055533.200.json
+
+###
+GET http://localhost:8082/api/stock/999
+
+<> 2026-08-29T055528.404.json
+
+###
+GET http://localhost:8082/api/stock
+
+<> 2026-08-29T055522.200.json
+
+###
+GET http://localhost:8080/api/delivery/price?cardId=2&addressId=2&deliveryType=COURIER
+
+<> 2026-08-29T055510.404.json
+
+###
+GET http://localhost:8082/api/stock/card/1
+User-Auth: admin
+
+<> 2026-08-29T052349.500.json
+
+###
+GET http://localhost:8082/api/stock
+
+<> 2026-08-29T052334.500.json
+
+###
+GET http://localhost:8082/api/stock
+
+<> 2026-08-29T051932.500.json
+
+###
+GET http://localhost:8082/api/stock/card/1
+User-Auth: admin
+
+<> 2026-08-29T051906.500.json
+
+###
+GET http://localhost:8082/api/stock
+
+<> 2026-08-29T051903.500.json
+
+###
+GET http://localhost:8082/api/stock/999
+
+<> 2026-08-29T051901.500.json
+
+###
+GET http://localhost:8080/api/cards/1
+
+<> 2026-08-29T051849.200.json
+
+###
+GET http://localhost:8080/api/cards/25/stock
+User-Auth: mockUser
+
+<> 2026-08-29T051838.500.json
+
+###
+GET http://localhost:8080/api/delivery/price?cardId=2&addressId=2&deliveryType=COURIER
+
+<> 2026-08-29T051806.404.json
+
+###

@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.math.BigDecimal;
+
 
 @Data
 @Entity
@@ -20,7 +22,7 @@ public class Card extends Audit {
     private String title;
 
     @Column(nullable = false)
-    private Integer price;
+    private BigDecimal price;
 
     @Column(length = 500)
     private String image;

@@ -5,6 +5,8 @@ import ru.gazprom.server.model.Address;
 import ru.gazprom.server.model.Card;
 import ru.gazprom.server.enums.DeliveryType;
 
+import java.math.BigDecimal;
+
 @Component
 public class PickUpDeliveryStrategy implements DeliveryStrategy {
     @Override
@@ -13,7 +15,7 @@ public class PickUpDeliveryStrategy implements DeliveryStrategy {
     }
 
     @Override
-    public double calculateDelivery(Card card, Address address) {
+    public BigDecimal calculateDelivery(Card card, Address address) {
         return card.getPrice();
     }
 }

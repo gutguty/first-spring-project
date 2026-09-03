@@ -1,0 +1,122 @@
+[
+  {
+    "id": 1,
+    "title": "Shoes",
+    "price": 1000,
+    "image": "shoes.png"
+  },
+  {
+    "id": 2,
+    "title": "Sneakers Nike",
+    "price": 4500,
+    "image": "sneakers-nike.png"
+  },
+  {
+    "id": 3,
+    "title": "Boots Timberland",
+    "price": 8000,
+    "image": "boots-timberland.png"
+  },
+  {
+    "id": 4,
+    "title": "T-Shirt Basic",
+    "price": 1200,
+    "image": "tshirt-basic.png"
+  },
+  {
+    "id": 5,
+    "title": "Jeans Slim",
+    "price": 3500,
+    "image": "jeans-slim.png"
+  },
+  {
+    "id": 6,
+    "title": "Jacket Winter",
+    "price": 12000,
+    "image": "jacket-winter.png"
+  },
+  {
+    "id": 7,
+    "title": "Sneakers Adidas",
+    "price": 4800,
+    "image": "sneakers-adidas.png"
+  },
+  {
+    "id": 8,
+    "title": "Sandals Summer",
+    "price": 2200,
+    "image": "sandals-summer.png"
+  },
+  {
+    "id": 9,
+    "title": "Shirt Formal",
+    "price": 2700,
+    "image": "shirt-formal.png"
+  },
+  {
+    "id": 10,
+    "title": "Hoodie Black",
+    "price": 3200,
+    "image": "hoodie-black.png"
+  },
+  {
+    "id": 11,
+    "title": "Sneakers Puma",
+    "price": 4200,
+    "image": "sneakers-puma.png"
+  },
+  {
+    "id": 12,
+    "title": "Shorts Sport",
+    "price": 1400,
+    "image": "shorts-sport.png"
+  },
+  {
+    "id": 13,
+    "title": "Watch Analog",
+    "price": 9500,
+    "image": "watch-analog.png"
+  },
+  {
+    "id": 14,
+    "title": "Backpack Travel",
+    "price": 5500,
+    "image": "backpack-travel.png"
+  },
+  {
+    "id": 15,
+    "title": "Sunglasses Classic",
+    "price": 2100,
+    "image": "sunglasses-classic.png"
+  },
+  {
+    "id": 16,
+    "title": "Socks Cotton",
+    "price": 500,
+    "image": "socks-cotton.png"
+  },
+  {
+    "id": 17,
+    "title": "Cap Baseball",
+    "price": 900,
+    "image": "cap-baseball.png"
+  },
+  {
+    "id": 18,
+    "title": "Scarf Wool",
+    "price": 1500,
+    "image": "scarf-wool.png"
+  },
+  {
+    "id": 19,
+    "title": "Gloves Leather",
+    "price": 1800,
+    "image": "gloves-leather.png"
+  },
+  {
+    "id": 20,
+    "title": "Belt Leather",
+    "price": 1600,
+    "image": "belt-leather.png"
+  }
+]

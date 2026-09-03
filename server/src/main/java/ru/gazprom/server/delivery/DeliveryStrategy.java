@@ -4,7 +4,9 @@ import ru.gazprom.server.model.Address;
 import ru.gazprom.server.model.Card;
 import ru.gazprom.server.enums.DeliveryType;
 
+import java.math.BigDecimal;
+
 public interface DeliveryStrategy {
     DeliveryType getType();
-    double calculateDelivery(Card card, Address address);
+    BigDecimal calculateDelivery(Card card, Address address);
 }

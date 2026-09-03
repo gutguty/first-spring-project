@@ -1,0 +1,96 @@
+services:
+  postgres:
+    image: postgres:16
+    ports:
+      - "5434:5432"
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+          cpus: "0.5"
+
+
+  postgres-stock:
+    image: postgres:16
+    ports:
+      - "5433:5432"
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB_STOCK}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD_STOCK}
+    volumes:
+      - postgres_stock_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+          cpus: "0.5"
+
+  server:
+    build: server
+    ports:
+      - "8080:8080"
+    env_file: "server/.env"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      stock-service:
+        condition: service_started
+
+    deploy:
+      resources:
+        limits:
+          memory: 768M
+          cpus: "1"
+
+  stock-service:
+    build: stock-service
+    ports:
+      - "8082:8082"
+    secrets:
+      - source: stock_db_url
+        target: spring.datasource.url
+      - source: stock_db_username
+        target: spring.datasource.username
+      - source: stock_db_password
+        target: spring.datasource.password
+
+    depends_on:
+      postgres-stock:
+        condition: service_healthy
+
+    deploy:
+      resources:
+        limits:
+          memory: 768M
+          cpus: "0.5"
+
+secrets:
+  stock_db_url:
+    file: ./stock-service/secrets/spring.datasource.url
+  stock_db_username:
+    file: ./stock-service/secrets/spring.datasource.username
+  stock_db_password:
+    file: ./stock-service/secrets/spring.datasource.password
+
+
+
+volumes:
+  postgres_data:
+  postgres_stock_data:

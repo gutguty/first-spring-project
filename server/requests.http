@@ -15,9 +15,9 @@ POST http://localhost:8080/api/cards
 Content-Type: application/json
 
 {
-  "title": "InvalidStock3",
-  "price": 60000,
-  "image": "InvalidStock3.png"
+  "title": "Furniture",
+  "price": 80000,
+  "image": "furniture.png"
 }
 
 ###
@@ -31,7 +31,7 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:8080/api/cards/1/stock
+GET http://localhost:8080/api/cards/2/stock
 User-Auth: admin
 
 ###
@@ -79,10 +79,29 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:8080/api/delivery/price?cardId=1&addressId=1&deliveryType=COURIER
+GET http://localhost:8080/api/delivery/price?cardId=2&addressId=2&deliveryType=COURIER
 
 ###
 GET http://localhost:8080/api/delivery/price?cardId=1&addressId=1&deliveryType=PICK_UP
 
 ###
 GET http://localhost:8080/api/delivery/price?cardId=5&addressId=1&deliveryType=COURIER
+
+###
+GET http://localhost:8080/api/order?cardId=2&addressId=1&deliveryType=COURIER&paymentType=PARTNER_CARD
+
+###
+GET http://localhost:8082/api/stock/card/2
+User-Auth: admin
+
+###
+GET http://localhost:8082/api/stock/card/999
+User-Auth: admin
+
+###
+GET http://localhost:8082/api/stock/card/25
+User-Auth: admin
+
+###
+GET http://localhost:8082/api/stock/card/3
+User-Auth: bogdan

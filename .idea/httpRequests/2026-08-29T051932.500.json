@@ -1,0 +1,12 @@
+{
+  "time": "2026-08-29T02:19:32.432268482",
+  "message": "JDBC exception executing SQL [ERROR: relation \"stocks\" does not exist\n  Position: 62] [select s1_0.id,s1_0.card_id,s1_0.quantity,s1_0.reserved from stocks s1_0]; SQL [select s1_0.id,s1_0.card_id,s1_0.quantity,s1_0.reserved from stocks s1_0]",
+  "success": false,
+  "stock": null,
+  "listErrors": [
+    {
+      "message": "JDBC exception executing SQL [ERROR: relation \"stocks\" does not exist\n  Position: 62] [select s1_0.id,s1_0.card_id,s1_0.quantity,s1_0.reserved from stocks s1_0]; SQL [select s1_0.id,s1_0.card_id,s1_0.quantity,s1_0.reserved from stocks s1_0]",
+      "httpStatus": "500 INTERNAL_SERVER_ERROR"
+    }
+  ]
+}

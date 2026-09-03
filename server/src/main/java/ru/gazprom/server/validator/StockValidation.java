@@ -1,35 +1,54 @@
 package ru.gazprom.server.validator;
 
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 import ru.gazprom.server.dto.StockDTO;
-import ru.gazprom.server.exception.InvalidStockResponseException;
+import ru.gazprom.server.exception.*;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
+@Slf4j
 public class StockValidation {
 
-    public Mono<StockDTO> validate(StockDTO stockDTO) {
-        if (stockDTO == null) {
-            throw new InvalidStockResponseException("Response is null");
-        }
+    public Mono<Response<StockDTO>> validate(StockDTO stockDTO, String methodName) {
+
+        List<ValidationException> listErrors = new ArrayList<>();
 
         if (stockDTO.getCardId() == null) {
-            throw new InvalidStockResponseException("CardId is null");
+            listErrors.add(new FieldRequiredException("cardId"));
         }
 
-        if (stockDTO.getQuantity() == null || stockDTO.getQuantity() < 0) {
-            throw new InvalidStockResponseException("Quantity is negative = " + stockDTO.getQuantity());
+        if (stockDTO.getQuantity() == null) {
+            listErrors.add(new FieldRequiredException("Quantity"));
+        } else if (stockDTO.getQuantity() < 0) {
+            listErrors.add(new NegativeValueException("Quantity", stockDTO.getQuantity()));
         }
 
-        if (stockDTO.getReserved() == null || stockDTO.getReserved() < 0) {
-            throw new InvalidStockResponseException("Reserved is negative = " + stockDTO.getReserved());
+        if (stockDTO.getReserved() == null) {
+            listErrors.add(new FieldRequiredException("Reserved"));
+        } else if (stockDTO.getReserved() < 0) {
+            listErrors.add(new NegativeValueException("Reserved", stockDTO.getReserved()));
         }
 
-        if (stockDTO.getQuantity() - stockDTO.getReserved() < 0) {
-            throw new InvalidStockResponseException("Reserved " + stockDTO.getReserved() +" is less than Quantity " + stockDTO.getQuantity());
+        if (stockDTO.getReserved() != null && stockDTO.getQuantity() != null
+                && stockDTO.getReserved() > stockDTO.getQuantity()) {
+            listErrors.add(new QuantityReservedException(stockDTO.getQuantity(), stockDTO.getReserved()));
         }
 
-        return Mono.just(stockDTO);
+        if (!listErrors.isEmpty()) {
+            log.error("Validation errors in stock={}", listErrors.stream()
+                    .map(ValidationException::getMessage)
+                    .toList()
+            );
+
+            return Mono.just(new Response<>(LocalDateTime.now(), methodName, false, null, listErrors));
+        }
+
+        return Mono.just(new Response<>(LocalDateTime.now(), methodName, true, stockDTO, List.of()));
     }
 }
