@@ -1,19 +1,13 @@
 package ru.gazprom.server.service;
 
-import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
-import org.springframework.test.context.jdbc.Sql;
 import ru.gazprom.server.dto.CategoryDTO;
-import ru.gazprom.server.exception.CategoryNotFoundException;
+import ru.gazprom.server.exception.CategoryNotFoundError;
 import ru.gazprom.server.mapper.CategoryMapper;
-import ru.gazprom.server.model.Card;
 import ru.gazprom.server.model.Category;
 import ru.gazprom.server.repository.CategoryRepository;
 
@@ -71,7 +65,7 @@ class CategoryServiceTest {
 
     @Test
     void getCategoryByInvalidId() {
-        assertThrows(CategoryNotFoundException.class,
+        assertThrows(CategoryNotFoundError.class,
                 () -> categoryService.getCategoryById(999L));
     }
 
@@ -127,7 +121,7 @@ class CategoryServiceTest {
         Long id = 999L;
         when(categoryRepository.existsById(id)).thenReturn(false);
 
-        assertThrows(CategoryNotFoundException.class,
+        assertThrows(CategoryNotFoundError.class,
                 () -> categoryService.deleteCategory(id));
 
         verify(categoryRepository, never()).deleteById(any());
@@ -181,7 +175,7 @@ class CategoryServiceTest {
     void updateInvalidId() {
         when(categoryRepository.findById(999L)).thenReturn(Optional.empty());
 
-        assertThrows(CategoryNotFoundException.class,
+        assertThrows(CategoryNotFoundError.class,
                 () -> categoryService.updateCategoryById(999L, new Category(null, "Sneakers")));
     }
 }

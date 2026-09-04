@@ -21,6 +21,7 @@ services:
           cpus: "0.5"
 
 
+
   postgres-stock:
     image: postgres:16
     ports:

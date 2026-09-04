@@ -3,7 +3,6 @@ package ru.gazprom.server.exception;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -16,5 +15,5 @@ public class Response<T> {
     private String methodName;
     private boolean success;
     private T data;
-    private List<ValidationException> listErrors;
+    private List<ValidationError> listErrors;
 }

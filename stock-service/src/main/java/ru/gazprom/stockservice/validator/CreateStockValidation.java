@@ -7,7 +7,6 @@ import ru.gazprom.stockservice.model.Stock;
 import ru.gazprom.stockservice.repository.StockRepository;
 import ru.gazprom.stockservice.users.AllowedUsers;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,35 +22,35 @@ public class CreateStockValidation {
         this.allowedUsers = allowedUsers;
     }
 
-    public List<ValidationException> validate(Stock stock, String user) {
-        List<ValidationException> result = new ArrayList<>();
+    public List<ValidationError> validate(Stock stock, String user) {
+        List<ValidationError> result = new ArrayList<>();
 
         if (!allowedUsers.getAllowedUsers().contains(user)) {
-            result.add(new ForbiddenException("Access for user " + user + " is not allowed"));
+            result.add(new ForbiddenError("Access for user " + user + " is not allowed"));
         }
 
         if (stock.getCardId() == null) {
-            result.add(new FieldRequiredException("cardId"));
+            result.add(new FieldRequiredError("cardId"));
         }
 
         if (stock.getQuantity() == null) {
-            result.add(new FieldRequiredException("Quantity"));
+            result.add(new FieldRequiredError("Quantity"));
         } else if (stock.getQuantity() < 0) {
-            result.add(new NegativeValueException("Quantity", stock.getQuantity()));
+            result.add(new NegativeValueError("Quantity", stock.getQuantity()));
         }
 
         if (stock.getReserved() == null) {
-            result.add(new FieldRequiredException("Reserved"));
+            result.add(new FieldRequiredError("Reserved"));
         } else if (stock.getReserved() < 0) {
-            result.add(new NegativeValueException("Reserved", stock.getReserved()));
+            result.add(new NegativeValueError("Reserved", stock.getReserved()));
         }
 
         if (stock.getReserved() > stock.getQuantity()) {
-            result.add(new QuantityReservedException(stock.getQuantity(), stock.getReserved()));
+            result.add(new QuantityReservedError(stock.getQuantity(), stock.getReserved()));
         }
 
         if (stockRepository.existsStockByCardId(stock.getCardId())) {
-            result.add(new AlreadyExistsException(stock.getCardId()));
+            result.add(new AlreadyExistsError(stock.getCardId()));
         }
         return result;
     }

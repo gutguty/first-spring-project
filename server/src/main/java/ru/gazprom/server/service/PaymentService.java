@@ -12,6 +12,8 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static ru.gazprom.server.utils.ResponseUtils.responseSuccess;
+
 @Service
 @RequiredArgsConstructor
 public class PaymentService {
@@ -20,6 +22,6 @@ public class PaymentService {
     public Response<PaymentDTO> paymentProcess(PaymentType paymentType, BigDecimal amount) {
         PaymentStrategy strategy = paymentFactory.getStrategy(paymentType);
         PaymentDTO paymentDTO = strategy.paymentProcess(amount);
-        return new Response<>(LocalDateTime.now(), "paymentProcess", true, paymentDTO, List.of());
+        return responseSuccess("paymentProcess", paymentDTO);
     }
 }
