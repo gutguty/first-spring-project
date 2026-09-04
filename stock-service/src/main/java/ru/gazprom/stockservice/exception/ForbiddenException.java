@@ -1,7 +1,9 @@
 package ru.gazprom.stockservice.exception;
 
-public class ForbiddenException extends RuntimeException {
+import org.springframework.http.HttpStatus;
+
+public class ForbiddenException extends ValidationException {
     public ForbiddenException(String message) {
-        super(message);
+        super(message, HttpStatus.FORBIDDEN);
     }
 }

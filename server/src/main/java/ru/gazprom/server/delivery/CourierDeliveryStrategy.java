@@ -6,12 +6,14 @@ import ru.gazprom.server.model.Address;
 import ru.gazprom.server.model.Card;
 import ru.gazprom.server.enums.DeliveryType;
 
+import java.math.BigDecimal;
+
 @Component
 public class CourierDeliveryStrategy implements DeliveryStrategy {
-    private static final double CITY_CENTER_COEFFICIENT = 1.15;
-    private static final double CITY_SUBURB_COEFFICIENT = 1.25;
-    private static final double CITY_COUNTRYSIDE_COEFFICIENT = 1.45;
-    private static final double COURIER_FEE = 500.0;
+    private static final BigDecimal CITY_CENTER_COEFFICIENT = new BigDecimal("1.15");
+    private static final BigDecimal CITY_SUBURB_COEFFICIENT = new BigDecimal("1.25");
+    private static final BigDecimal CITY_COUNTRYSIDE_COEFFICIENT = new BigDecimal("1.45");
+    private static final BigDecimal COURIER_FEE = new BigDecimal("500.0");
 
 
     @Override
@@ -20,13 +22,13 @@ public class CourierDeliveryStrategy implements DeliveryStrategy {
     }
 
     @Override
-    public double calculateDelivery(Card card, Address address) {
-        double coefficientCityZone = calculateCoefficient(address.getCityZone());
+    public BigDecimal calculateDelivery(Card card, Address address) {
+        BigDecimal coefficientCityZone = calculateCoefficient(address.getCityZone());
 
-        return (card.getPrice() + COURIER_FEE) * coefficientCityZone;
+        return card.getPrice().add(COURIER_FEE).multiply(coefficientCityZone);
     }
 
-    public double calculateCoefficient(CityZone cityZone) {
+    public BigDecimal calculateCoefficient(CityZone cityZone) {
         return switch (cityZone) {
             case CENTER -> CITY_CENTER_COEFFICIENT;
             case SUBURB -> CITY_SUBURB_COEFFICIENT;

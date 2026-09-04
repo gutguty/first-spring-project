@@ -1,7 +1,9 @@
 package ru.gazprom.stockservice.exception;
 
-public class StockNotFoundException extends RuntimeException {
+import org.springframework.http.HttpStatus;
+
+public class StockNotFoundException extends ValidationException {
     public StockNotFoundException(String message) {
-        super(message);
+        super(message, HttpStatus.BAD_REQUEST);
     }
 }

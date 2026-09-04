@@ -3,6 +3,8 @@ package ru.gazprom.server.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.math.BigDecimal;
+
 @Data
 @AllArgsConstructor
 
@@ -11,7 +13,7 @@ public class CardDTO {
     //16
     private Long id;
     private String title;
-    private Integer price;
+    private BigDecimal price;
     private String image;
 }
 

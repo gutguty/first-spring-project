@@ -1,7 +1,9 @@
 package ru.gazprom.server.exception;
 
-public class CardNotFoundException extends RuntimeException {
+import org.springframework.http.HttpStatus;
+
+public class CardNotFoundException extends ValidationException {
     public CardNotFoundException(String message) {
-        super(message);
+        super(message, HttpStatus.BAD_REQUEST);
     }
 }

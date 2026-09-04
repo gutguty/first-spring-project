@@ -1,7 +1,9 @@
 package ru.gazprom.server.exception;
 
-public class CategoryNotFoundException extends RuntimeException {
+import org.springframework.http.HttpStatus;
+
+public class CategoryNotFoundException extends ValidationException {
     public CategoryNotFoundException(String message) {
-        super(message);
+        super(message, HttpStatus.BAD_REQUEST);
     }
 }
