@@ -9,13 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.gazprom.server.dto.OrderDTO;
 import ru.gazprom.server.enums.DeliveryType;
 import ru.gazprom.server.enums.PaymentType;
-import ru.gazprom.server.exception.AddressNotFoundException;
-import ru.gazprom.server.exception.CardNotFoundException;
 import ru.gazprom.server.exception.Response;
-import ru.gazprom.server.model.Address;
-import ru.gazprom.server.model.Card;
-import ru.gazprom.server.repository.AddressRepository;
-import ru.gazprom.server.repository.CardRepository;
 import ru.gazprom.server.service.OrderService;
 
 @RestController

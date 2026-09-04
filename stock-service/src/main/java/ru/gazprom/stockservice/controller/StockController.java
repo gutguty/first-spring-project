@@ -3,9 +3,7 @@ package ru.gazprom.stockservice.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import ru.gazprom.stockservice.exception.ForbiddenException;
 import ru.gazprom.stockservice.exception.Response;
-import ru.gazprom.stockservice.users.AllowedUsers;
 import ru.gazprom.stockservice.model.Stock;
 import ru.gazprom.stockservice.service.StockService;
 

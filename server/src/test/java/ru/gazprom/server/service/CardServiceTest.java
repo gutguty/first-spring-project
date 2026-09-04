@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import ru.gazprom.server.dto.CardDTO;
-import ru.gazprom.server.exception.CardNotFoundException;
+import ru.gazprom.server.exception.CardNotFoundError;
 import ru.gazprom.server.model.Card;
 import ru.gazprom.server.repository.CardRepository;
 
@@ -93,7 +93,7 @@ public class CardServiceTest {
 
     @Test
     void getInvalidId() {
-        assertThrows(CardNotFoundException.class,
+        assertThrows(CardNotFoundError.class,
                 () -> cardService.getCardById(999L));
     }
 
@@ -109,13 +109,13 @@ public class CardServiceTest {
     void deleteCardByIdNotFoundCard() {
         Long id = cardRepository.findAll().getFirst().getId();
         cardService.deleteCard(id);
-        assertThrows(CardNotFoundException.class,
+        assertThrows(CardNotFoundError.class,
                 () -> cardService.getCardById(id));
     }
 
     @Test
     void deleteInvalidId() {
-        assertThrows(CardNotFoundException.class,
+        assertThrows(CardNotFoundError.class,
                 () -> cardService.deleteCard(999L));
     }
 
@@ -134,7 +134,7 @@ public class CardServiceTest {
     void updateInvalidId() {
         var expected = new Card(2L, "Laptop", 15000, "laptop.png", null);
 
-        assertThrows(CardNotFoundException.class,
+        assertThrows(CardNotFoundError.class,
                 () -> cardService.updateCardById(999L, expected));
     }
 }

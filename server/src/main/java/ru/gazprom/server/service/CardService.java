@@ -5,23 +5,24 @@ import lombok.extern.slf4j.Slf4j;
 import ru.gazprom.server.dto.CardDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.gazprom.server.exception.CardNotFoundException;
-import ru.gazprom.server.exception.FieldRequiredException;
+import ru.gazprom.server.exception.CardNotFoundError;
+import ru.gazprom.server.exception.FieldRequiredError;
 import ru.gazprom.server.exception.Response;
-import ru.gazprom.server.exception.ValidationException;
+import ru.gazprom.server.exception.ValidationError;
 import ru.gazprom.server.mapper.CardMapper;
 import ru.gazprom.server.model.Card;
-import ru.gazprom.server.model.Category;
 import ru.gazprom.server.repository.CardRepository;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.BiFunction;
+import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+
+import static ru.gazprom.server.utils.ResponseUtils.responseError;
+import static ru.gazprom.server.utils.ResponseUtils.responseSuccess;
 
 @Service
 @RequiredArgsConstructor
@@ -47,43 +48,42 @@ public class CardService {
         List<CardDTO> cards = cardRepository.findAll().stream()
                 .map(calculateDiscount)
                 .collect(Collectors.toList());
-        return new Response<>(LocalDateTime.now(), "getAllCards", true, cards, List.of());
+
+        return responseSuccess("getAllCards", cards);
     }
 
     public Response<CardDTO> getCardById(Long id) {
         return cardRepository.findById(id)
-                .map(card -> new Response<>(LocalDateTime.now(), "getCardById", true, cardMapper.CardToDto(card), List.of()))
-                .orElseGet(() -> new Response<>(LocalDateTime.now(), "getCardById", false, null,
-                        List.of(new CardNotFoundException("Card with " + id + " id not found"))));
+                .map(card -> responseSuccess("getCardById", cardMapper.CardToDto(card)))
+                .orElseGet(() -> responseError("getCardById", new CardNotFoundError("Card with " + id + " id not found")));
     }
 
 
     @Transactional
     public Response<CardDTO> createCard(Card card) {
         Consumer<Card> logCreateCard = c -> log.info("Card created title={}, price={}", c.getTitle(), c.getPrice());
-        List<ValidationException> errors = new ArrayList<>();
+        List<ValidationError> errors = new ArrayList<>();
 
         if (card.getTitle() == null || card.getTitle().isBlank()) {
-            errors.add(new FieldRequiredException("title"));
+            errors.add(new FieldRequiredError("title"));
         }
         if (card.getPrice() == null || card.getPrice().compareTo(BigDecimal.ZERO) <= 0) {
-            errors.add(new FieldRequiredException("price"));
+            errors.add(new FieldRequiredError("price"));
         }
         if (!errors.isEmpty()) {
-            return new Response<>(LocalDateTime.now(), "createCard", false, null, errors);
+            return responseError("createCard", errors);
         }
         Card savedCard = cardRepository.save(card);
         logCreateCard.accept(savedCard);
-        return new Response<>(LocalDateTime.now(), "createCard", true, cardMapper.CardToDto(savedCard), List.of());
+        return responseSuccess("createCard", cardMapper.CardToDto(savedCard));
     }
 
     public Response<Void> deleteCard(Long id) {
         if (!cardRepository.existsById(id)) {
-            return new Response<>(LocalDateTime.now(), "deleteCard", false, null,
-                    List.of(new CardNotFoundException("Card with " + id + " id not found")));
+            return responseError("deleteCard", new CardNotFoundError("Card with " + id + " id not found"));
         }
         cardRepository.deleteById(id);
-        return new Response<>(LocalDateTime.now(), "deleteCard", true, null, List.of());
+        return responseSuccess("deleteCard", null);
     }
 
     @Transactional
@@ -94,9 +94,14 @@ public class CardService {
                     existCard.setPrice(newCard.getPrice());
                     existCard.setImage(newCard.getImage());
                     Card updated = cardRepository.save(existCard);
-                    return new Response<>(LocalDateTime.now(), "updateCardById", true, cardMapper.CardToDto(updated), List.of());
+                    return responseSuccess("updateCardById", cardMapper.CardToDto(updated));
                 })
-                .orElseGet(() -> new Response<>(LocalDateTime.now(), "updateCardById", false, null,
-                        List.of(new CardNotFoundException("Card with " + id + " not found"))));
+                .orElseGet(() -> responseError("updateCardById", new CardNotFoundError("Card with " + id + " not found")));
     }
+
+//    Нейминг должен совпадать с методом в репозитории ?
+    public Optional<Card> findCardById(Long cardId) {
+        return cardRepository.findById(cardId);
+    }
+
 }
