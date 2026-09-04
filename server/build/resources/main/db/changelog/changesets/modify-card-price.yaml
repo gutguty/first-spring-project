@@ -1,9 +1,0 @@
-databaseChangeLog:
-  - changeSet:
-      id: 9
-      author: Bogdan Guty
-      changes:
-        - modifyDataType:
-            tableName: cards
-            columnName: price
-            newDataType: decimal(10,2)
