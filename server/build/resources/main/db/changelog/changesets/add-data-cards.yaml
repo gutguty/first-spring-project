@@ -1,0 +1,214 @@
+databaseChangeLog:
+  - changeSet:
+      id: 6
+      author: Bogdan Guty
+      changes:
+        - insert:
+            tableName: cards
+            columns:
+              - column: { name: title, value: "Sneakers Nike" }
+              - column: { name: price, valueNumeric: "4500" }
+              - column: { name: image, value: "sneakers-nike.png" }
+              - column: { name: category_id, valueNumeric: "2" }
+              - column: { name: created_by, value: "seed" }
+              - column: { name: updated_by, value: "seed" }
+              - column: { name: created_at, valueDate: "2026-01-01T00:00:00" }
+              - column: { name: updated_at, valueDate: "2026-01-01T00:00:00" }
+        - insert:
+            tableName: cards
+            columns:
+              - column: { name: title, value: "Boots Timberland" }
+              - column: { name: price, valueNumeric: "8000" }
+              - column: { name: image, value: "boots-timberland.png" }
+              - column: { name: category_id, valueNumeric: "2" }
+              - column: { name: created_by, value: "seed" }
+              - column: { name: updated_by, value: "seed" }
+              - column: { name: created_at, valueDate: "2026-01-01T00:00:00" }
+              - column: { name: updated_at, valueDate: "2026-01-01T00:00:00" }
+        - insert:
+            tableName: cards
+            columns:
+              - column: { name: title, value: "T-Shirt Basic" }
+              - column: { name: price, valueNumeric: "1200" }
+              - column: { name: image, value: "tshirt-basic.png" }
+              - column: { name: category_id, valueNumeric: "1" }
+              - column: { name: created_by, value: "seed" }
+              - column: { name: updated_by, value: "seed" }
+              - column: { name: created_at, valueDate: "2026-01-01T00:00:00" }
+              - column: { name: updated_at, valueDate: "2026-01-01T00:00:00" }
+        - insert:
+            tableName: cards
+            columns:
+              - column: { name: title, value: "Jeans Slim" }
+              - column: { name: price, valueNumeric: "3500" }
+              - column: { name: image, value: "jeans-slim.png" }
+              - column: { name: category_id, valueNumeric: "1" }
+              - column: { name: created_by, value: "seed" }
+              - column: { name: updated_by, value: "seed" }
+              - column: { name: created_at, valueDate: "2026-01-01T00:00:00" }
+              - column: { name: updated_at, valueDate: "2026-01-01T00:00:00" }
+        - insert:
+            tableName: cards
+            columns:
+              - column: { name: title, value: "Jacket Winter" }
+              - column: { name: price, valueNumeric: "12000" }
+              - column: { name: image, value: "jacket-winter.png" }
+              - column: { name: category_id, valueNumeric: "1" }
+              - column: { name: created_by, value: "seed" }
+              - column: { name: updated_by, value: "seed" }
+              - column: { name: created_at, valueDate: "2026-01-01T00:00:00" }
+              - column: { name: updated_at, valueDate: "2026-01-01T00:00:00" }
+        - insert:
+            tableName: cards
+            columns:
+              - column: { name: title, value: "Sneakers Adidas" }
+              - column: { name: price, valueNumeric: "4800" }
+              - column: { name: image, value: "sneakers-adidas.png" }
+              - column: { name: category_id, valueNumeric: "2" }
+              - column: { name: created_by, value: "seed" }
+              - column: { name: updated_by, value: "seed" }
+              - column: { name: created_at, valueDate: "2026-01-01T00:00:00" }
+              - column: { name: updated_at, valueDate: "2026-01-01T00:00:00" }
+        - insert:
+            tableName: cards
+            columns:
+              - column: { name: title, value: "Sandals Summer" }
+              - column: { name: price, valueNumeric: "2200" }
+              - column: { name: image, value: "sandals-summer.png" }
+              - column: { name: category_id, valueNumeric: "2" }
+              - column: { name: created_by, value: "seed" }
+              - column: { name: updated_by, value: "seed" }
+              - column: { name: created_at, valueDate: "2026-01-01T00:00:00" }
+              - column: { name: updated_at, valueDate: "2026-01-01T00:00:00" }
+        - insert:
+            tableName: cards
+            columns:
+              - column: { name: title, value: "Shirt Formal" }
+              - column: { name: price, valueNumeric: "2700" }
+              - column: { name: image, value: "shirt-formal.png" }
+              - column: { name: category_id, valueNumeric: "1" }
+              - column: { name: created_by, value: "seed" }
+              - column: { name: updated_by, value: "seed" }
+              - column: { name: created_at, valueDate: "2026-01-01T00:00:00" }
+              - column: { name: updated_at, valueDate: "2026-01-01T00:00:00" }
+        - insert:
+            tableName: cards
+            columns:
+              - column: { name: title, value: "Hoodie Black" }
+              - column: { name: price, valueNumeric: "3200" }
+              - column: { name: image, value: "hoodie-black.png" }
+              - column: { name: category_id, valueNumeric: "1" }
+              - column: { name: created_by, value: "seed" }
+              - column: { name: updated_by, value: "seed" }
+              - column: { name: created_at, valueDate: "2026-01-01T00:00:00" }
+              - column: { name: updated_at, valueDate: "2026-01-01T00:00:00" }
+        - insert:
+            tableName: cards
+            columns:
+              - column: { name: title, value: "Sneakers Puma" }
+              - column: { name: price, valueNumeric: "4200" }
+              - column: { name: image, value: "sneakers-puma.png" }
+              - column: { name: category_id, valueNumeric: "2" }
+              - column: { name: created_by, value: "seed" }
+              - column: { name: updated_by, value: "seed" }
+              - column: { name: created_at, valueDate: "2026-01-01T00:00:00" }
+              - column: { name: updated_at, valueDate: "2026-01-01T00:00:00" }
+        - insert:
+            tableName: cards
+            columns:
+              - column: { name: title, value: "Shorts Sport" }
+              - column: { name: price, valueNumeric: "1400" }
+              - column: { name: image, value: "shorts-sport.png" }
+              - column: { name: category_id, valueNumeric: "4" }
+              - column: { name: created_by, value: "seed" }
+              - column: { name: updated_by, value: "seed" }
+              - column: { name: created_at, valueDate: "2026-01-01T00:00:00" }
+              - column: { name: updated_at, valueDate: "2026-01-01T00:00:00" }
+        - insert:
+            tableName: cards
+            columns:
+              - column: { name: title, value: "Watch Analog" }
+              - column: { name: price, valueNumeric: "9500" }
+              - column: { name: image, value: "watch-analog.png" }
+              - column: { name: category_id, valueNumeric: "2" }
+              - column: { name: created_by, value: "seed" }
+              - column: { name: updated_by, value: "seed" }
+              - column: { name: created_at, valueDate: "2026-01-01T00:00:00" }
+              - column: { name: updated_at, valueDate: "2026-01-01T00:00:00" }
+        - insert:
+            tableName: cards
+            columns:
+              - column: { name: title, value: "Backpack Travel" }
+              - column: { name: price, valueNumeric: "5500" }
+              - column: { name: image, value: "backpack-travel.png" }
+              - column: { name: category_id, valueNumeric: "3" }
+              - column: { name: created_by, value: "seed" }
+              - column: { name: updated_by, value: "seed" }
+              - column: { name: created_at, valueDate: "2026-01-01T00:00:00" }
+              - column: { name: updated_at, valueDate: "2026-01-01T00:00:00" }
+        - insert:
+            tableName: cards
+            columns:
+              - column: { name: title, value: "Sunglasses Classic" }
+              - column: { name: price, valueNumeric: "2100" }
+              - column: { name: image, value: "sunglasses-classic.png" }
+              - column: { name: category_id, valueNumeric: "3" }
+              - column: { name: created_by, value: "seed" }
+              - column: { name: updated_by, value: "seed" }
+              - column: { name: created_at, valueDate: "2026-01-01T00:00:00" }
+              - column: { name: updated_at, valueDate: "2026-01-01T00:00:00" }
+        - insert:
+            tableName: cards
+            columns:
+              - column: { name: title, value: "Socks Cotton" }
+              - column: { name: price, valueNumeric: "500" }
+              - column: { name: image, value: "socks-cotton.png" }
+              - column: { name: category_id, valueNumeric: "4" }
+              - column: { name: created_by, value: "seed" }
+              - column: { name: updated_by, value: "seed" }
+              - column: { name: created_at, valueDate: "2026-01-01T00:00:00" }
+              - column: { name: updated_at, valueDate: "2026-01-01T00:00:00" }
+        - insert:
+            tableName: cards
+            columns:
+              - column: { name: title, value: "Cap Baseball" }
+              - column: { name: price, valueNumeric: "900" }
+              - column: { name: image, value: "cap-baseball.png" }
+              - column: { name: category_id, valueNumeric: "3" }
+              - column: { name: created_by, value: "seed" }
+              - column: { name: updated_by, value: "seed" }
+              - column: { name: created_at, valueDate: "2026-01-01T00:00:00" }
+              - column: { name: updated_at, valueDate: "2026-01-01T00:00:00" }
+        - insert:
+            tableName: cards
+            columns:
+              - column: { name: title, value: "Scarf Wool" }
+              - column: { name: price, valueNumeric: "1500" }
+              - column: { name: image, value: "scarf-wool.png" }
+              - column: { name: category_id, valueNumeric: "3" }
+              - column: { name: created_by, value: "seed" }
+              - column: { name: updated_by, value: "seed" }
+              - column: { name: created_at, valueDate: "2026-01-01T00:00:00" }
+              - column: { name: updated_at, valueDate: "2026-01-01T00:00:00" }
+        - insert:
+            tableName: cards
+            columns:
+              - column: { name: title, value: "Gloves Leather" }
+              - column: { name: price, valueNumeric: "1800" }
+              - column: { name: image, value: "gloves-leather.png" }
+              - column: { name: category_id, valueNumeric: "3" }
+              - column: { name: created_by, value: "seed" }
+              - column: { name: updated_by, value: "seed" }
+              - column: { name: created_at, valueDate: "2026-01-01T00:00:00" }
+              - column: { name: updated_at, valueDate: "2026-01-01T00:00:00" }
+        - insert:
+            tableName: cards
+            columns:
+              - column: { name: title, value: "Belt Leather" }
+              - column: { name: price, valueNumeric: "1600" }
+              - column: { name: image, value: "belt-leather.png" }
+              - column: { name: category_id, valueNumeric: "3" }
+              - column: { name: created_by, value: "seed" }
+              - column: { name: updated_by, value: "seed" }
+              - column: { name: created_at, valueDate: "2026-01-01T00:00:00" }
+              - column: { name: updated_at, valueDate: "2026-01-01T00:00:00" }

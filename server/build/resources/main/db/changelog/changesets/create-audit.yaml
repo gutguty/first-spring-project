@@ -1,0 +1,39 @@
+databaseChangeLog:
+  - changeSet:
+      id: 4
+      author: Bogdan Guty
+      changes:
+        - dropColumn:
+            columnName: date
+            tableName: cards
+        - addColumn:
+            columns:
+              - column:
+                  name: created_at
+                  type: timestamp
+              - column:
+                  name: updated_at
+                  type: timestamp
+              - column:
+                  name: created_by
+                  type: varchar(255)
+              - column:
+                  name: updated_by
+                  type: varchar(255)
+            tableName: cards
+        - addColumn:
+            columns:
+              - column:
+                  name: created_at
+                  type: timestamp
+              - column:
+                  name: updated_at
+                  type: timestamp
+              - column:
+                  name: created_by
+                  type: varchar(255)
+              - column:
+                  name: updated_by
+                  type: varchar(255)
+            tableName: categories
+
