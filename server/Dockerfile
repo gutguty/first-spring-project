@@ -11,4 +11,4 @@ USER spring-server
 WORKDIR /app
 COPY --from=build /app/build/libs/*.jar app.jar
 
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["sh", "-c", "exec java -XX:HeapDumpPath=/dumps/heap-$(date +%Y%m%d-%H%M%S).hprof -jar app.jar"]

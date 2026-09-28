@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import ru.gazprom.server.dto.CardDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.gazprom.server.enums.SortType;
 import ru.gazprom.server.exception.CardNotFoundError;
 import ru.gazprom.server.exception.FieldRequiredError;
 import ru.gazprom.server.exception.Response;
@@ -12,6 +13,8 @@ import ru.gazprom.server.exception.ValidationError;
 import ru.gazprom.server.mapper.CardMapper;
 import ru.gazprom.server.model.Card;
 import ru.gazprom.server.repository.CardRepository;
+import ru.gazprom.server.utils.CardComparatorFactory;
+import ru.gazprom.server.utils.ComparatorFactory;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -99,9 +102,38 @@ public class CardService {
                 .orElseGet(() -> responseError("updateCardById", new CardNotFoundError("Card with " + id + " not found")));
     }
 
-//    Нейминг должен совпадать с методом в репозитории ?
     public Optional<Card> findCardById(Long cardId) {
         return cardRepository.findById(cardId);
     }
 
+    public Response<List<CardDTO>> getAllCardsSorted(SortType sortType) {
+        List<CardDTO> cards = cardRepository.findAll().stream()
+                .sorted(CardComparatorFactory.compareByPriceAndTitle(sortType))
+                .map(cardMapper::CardToDto)
+                .collect(Collectors.toList());
+
+        return responseSuccess("getAllCardsSorted", cards);
+    }
+
+    public Response<List<CardDTO>> getAllCardsSortedByPrice(SortType sortType) {
+        Function<Card, BigDecimal> priceExtractor = Card::getPrice;
+
+        List<CardDTO> cards = cardRepository.findAll().stream()
+                .sorted(ComparatorFactory.compare(sortType, priceExtractor))
+                .map(cardMapper::CardToDto)
+                .collect(Collectors.toList());
+
+        return responseSuccess("getAllCardsSortedByPrice", cards);
+    }
+
+    public Response<List<CardDTO>> getAllCardsSortedByTitle(SortType sortType) {
+        Function<Card, String> titleExtractor = Card::getTitle;
+
+        List<CardDTO> cards = cardRepository.findAll().stream()
+                .sorted(ComparatorFactory.compare(sortType, titleExtractor))
+                .map(cardMapper::CardToDto)
+                .collect(Collectors.toList());
+
+        return responseSuccess("getAllCardsSortedByTitle", cards);
+    }
 }

@@ -1,4 +1,4 @@
-package ru.gazprom.server.dto;
+package ru.gazprom.stockservice.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,4 +14,3 @@ public class OrderDTO {
     private BigDecimal DeliveryPrice;
     private PaymentDTO paymentResult;
 }
-

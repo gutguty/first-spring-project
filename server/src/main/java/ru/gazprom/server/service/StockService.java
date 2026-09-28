@@ -8,20 +8,16 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Mono;
 import ru.gazprom.server.dto.StockDTO;
-import ru.gazprom.server.dto.StockErrorDTO;
 import ru.gazprom.server.dto.StockRequest;
-import ru.gazprom.server.dto.StockServiceResponse;
 import ru.gazprom.server.exception.Response;
 import ru.gazprom.server.exception.ValidationError;
 import ru.gazprom.server.exception.WebCustomClientError;
 import ru.gazprom.server.validator.StockValidation;
 
 import java.time.Duration;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 import static ru.gazprom.server.utils.ResponseUtils.responseError;
-import static ru.gazprom.server.utils.ResponseUtils.responseSuccess;
 
 @Service
 @Slf4j
@@ -35,12 +31,11 @@ public class StockService {
     }
 
 
+    ParameterizedTypeReference<Response<StockDTO>> typeRef = new ParameterizedTypeReference<>() {
+
+    };
 
     public Mono<Response<StockDTO>> getStockByCardId(Long cardId, String user) {
-
-        ParameterizedTypeReference<Response<StockDTO>> typeRef = new ParameterizedTypeReference<>() {
-
-        };
 
         return webClient
                 .get()
@@ -79,7 +74,7 @@ public class StockService {
                 .header("User-Auth", user)
                 .bodyValue(request)
                 .retrieve()
-                .bodyToMono(StockServiceResponse.class)
+                .bodyToMono(typeRef)
                 .timeout(Duration.ofSeconds(3))
                 .flatMap(wrapper -> {
                     if (!wrapper.isSuccess()) {
@@ -90,7 +85,7 @@ public class StockService {
                         Response<StockDTO> errorResponse = responseError("createStockById", errors);
                         return Mono.just(errorResponse);
                     }
-                    return stockValidation.validate(wrapper.getStock(), "createStockById");
+                    return stockValidation.validate(wrapper.getData(), "createStockById");
                 })
                 .onErrorResume(WebClientResponseException.class, exception -> {
                     log.error("Stock service error status={}", exception.getStatusCode());

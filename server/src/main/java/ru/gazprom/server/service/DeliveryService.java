@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.gazprom.server.delivery.DeliveryFactory;
 import ru.gazprom.server.delivery.DeliveryStrategy;
+import ru.gazprom.server.dto.DeliveryPriceRequest;
 import ru.gazprom.server.exception.AddressNotFoundError;
 import ru.gazprom.server.exception.CardNotFoundError;
 import ru.gazprom.server.exception.Response;
@@ -11,8 +12,6 @@ import ru.gazprom.server.model.Card;
 import ru.gazprom.server.enums.DeliveryType;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.List;
 
 import static ru.gazprom.server.utils.ResponseUtils.responseError;
 import static ru.gazprom.server.utils.ResponseUtils.responseSuccess;
@@ -25,10 +24,10 @@ public class DeliveryService {
     private final AddressService addressService;
     private final DeliveryFactory deliveryFactory;
 
-    public Response<BigDecimal> calculatePrice(Long cardId, Long addressId, DeliveryType deliveryType) {
-        return cardService.findCardById(cardId)
-                .map(card -> calculateDeliveryStrategyByAddressId(card, addressId, deliveryType))
-                .orElseGet(() -> responseError("calculatePrice", new CardNotFoundError("Card with id " + cardId + " is not found")));
+    public Response<BigDecimal> calculatePrice(DeliveryPriceRequest request) {
+        return cardService.findCardById(request.getCardId())
+                .map(card -> calculateDeliveryStrategyByAddressId(card, request.getAddressId(), request.getDeliveryType()))
+                .orElseGet(() -> responseError("calculatePrice", new CardNotFoundError("Card with id " + request.getCardId() + " is not found")));
     }
 
     public Response<BigDecimal> calculatePrice(Card card, Long addressId, DeliveryType deliveryType) {

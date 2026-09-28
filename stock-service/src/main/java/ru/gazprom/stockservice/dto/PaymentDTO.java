@@ -1,4 +1,4 @@
-package ru.gazprom.server.dto;
+package ru.gazprom.stockservice.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,9 +9,8 @@ import java.math.BigDecimal;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrderDTO {
-    private Long id;
-    private BigDecimal DeliveryPrice;
-    private PaymentDTO paymentResult;
+public class PaymentDTO {
+    private boolean success;
+    private String message;
+    private BigDecimal amount;
 }
-

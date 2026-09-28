@@ -62,7 +62,7 @@ POST http://localhost:8080/api/users
 Content-Type: application/json
 
 {
-  "name": "admin"
+  "name": "anna"
 }
 
 ###
@@ -71,25 +71,52 @@ Content-Type: application/json
 
 {
     "city": "Rostov",
-    "street": "Krasnoarmeyskaya",
-    "cityZone": "COUNTRYSIDE",
+    "street": "Tekuchova",
+    "cityZone": "CENTER",
     "user": {
       "id": 3
     }
 }
 
 ###
-GET http://localhost:8080/api/delivery/price?cardId=2&addressId=2&deliveryType=COURIER
+POST http://localhost:8080/api/delivery/price
+Content-Type: application/json
+
+{
+  "cardId": 2,
+  "addressId": 2,
+  "deliveryType": "COURIER"
+}
 
 ###
-GET http://localhost:8080/api/delivery/price?cardId=1&addressId=1&deliveryType=PICK_UP
+POST http://localhost:8080/api/delivery/price
+Content-Type: application/json
+
+{
+  "cardId": 1,
+  "addressId": 2,
+  "deliveryType": "PICK_UP"
+}
 
 ###
-GET http://localhost:8080/api/delivery/price?cardId=5&addressId=1&deliveryType=COURIER
+POST http://localhost:8080/api/delivery/price
+Content-Type: application/json
 
+{
+  "cardId": 5,
+  "addressId": 2,
+  "deliveryType": "COURIER"
+}
 ###
-GET http://localhost:8080/api/order?cardId=2&addressId=1&deliveryType=COURIER&paymentType=PARTNER_CARD
+POST http://localhost:8080/api/order
+Content-Type: application/json
 
+{
+  "cardId": 2,
+  "addressId": 2,
+  "deliveryType": "PICK_UP",
+  "paymentType": "PARTNER_CARD"
+}
 ###
 GET http://localhost:8082/api/stock/card/2
 User-Auth: admin
@@ -105,3 +132,30 @@ User-Auth: admin
 ###
 GET http://localhost:8082/api/stock/card/3
 User-Auth: bogdan
+
+###
+POST http://localhost:8080/api/kafka/orders?id=1
+
+###
+GET http://localhost:8080/api/kafka/stock?cardId=2
+
+### Payment
+POST http://localhost:8080/api/payment
+Content-Type: application/json
+
+{
+  "paymentType": "PARTNER_CARD",
+  "amount": 5000
+}
+
+###
+GET http://localhost:8080/api/cards/sorted?sortType=ASC
+
+###
+GET http://localhost:8080/api/cards/sorted/price?sortType=ASC
+
+###
+GET http://localhost:8080/api/cards/sorted/title?sortType=DESC
+
+###
+GET http://localhost:8080/api/categories/sorted?sortType=ASC

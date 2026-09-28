@@ -1,13 +1,13 @@
-package ru.gazprom.server.dto;
+package ru.gazprom.stockservice.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class StockErrorDTO {
+@NoArgsConstructor
+public class KafkaStockReply {
+    private boolean available;
     private String message;
-    private String httpStatus;
 }

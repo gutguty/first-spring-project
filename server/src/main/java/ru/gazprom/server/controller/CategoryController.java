@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.gazprom.server.dto.CategoryDTO;
+import ru.gazprom.server.enums.SortType;
 import ru.gazprom.server.exception.Response;
 import ru.gazprom.server.model.Category;
 import ru.gazprom.server.service.CategoryService;
@@ -42,5 +43,8 @@ public class CategoryController {
         return categoryService.updateCategoryById(id, category);
     }
 
-
+    @GetMapping("/categories/sorted")
+    public Response<List<CategoryDTO>> getAllCategoriesSortedByDate(@RequestParam SortType sortType) {
+        return categoryService.getAllCategoriesSortedByDate(sortType);
+    }
 }

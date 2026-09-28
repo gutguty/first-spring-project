@@ -12,7 +12,6 @@ import ru.gazprom.stockservice.users.AllowedUsers;
 import ru.gazprom.stockservice.validator.CreateStockValidation;
 import ru.gazprom.stockservice.validator.UpdateStockValidation;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;

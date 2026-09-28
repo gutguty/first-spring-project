@@ -1,16 +1,15 @@
 package ru.gazprom.stockservice.exception;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 
-@Getter
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ValidationError {
-    private final String message;
-    private final HttpStatus httpStatus;
-
-    public ValidationError(String message, HttpStatus httpStatus) {
-        this.message = message;
-        this.httpStatus = httpStatus;
-    }
-
+    private String message;
+    private HttpStatus httpStatus;
 }

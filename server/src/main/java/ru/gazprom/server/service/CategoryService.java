@@ -5,6 +5,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.gazprom.server.dto.CategoryDTO;
+import ru.gazprom.server.enums.SortType;
 import ru.gazprom.server.exception.CategoryNotFoundError;
 import ru.gazprom.server.exception.FieldRequiredError;
 import ru.gazprom.server.exception.Response;
@@ -12,6 +13,7 @@ import ru.gazprom.server.exception.ValidationError;
 import ru.gazprom.server.mapper.CategoryMapper;
 import ru.gazprom.server.model.Category;
 import ru.gazprom.server.repository.CategoryRepository;
+import ru.gazprom.server.utils.CategoryComparatorFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -96,5 +98,14 @@ public class CategoryService {
             existCategory.setName(newCategory.getName());
             Category updated = categoryRepository.save(existCategory);
             return responseSuccess("updateCategoryById", categoryMapper.categoryToDto(updated));
+        }
+
+        public Response<List<CategoryDTO>> getAllCategoriesSortedByDate(SortType sortType) {
+            List<CategoryDTO> categories = categoryRepository.findAll().stream()
+                    .sorted(CategoryComparatorFactory.compareByCreatedAt(sortType))
+                    .map(categoryMapper::categoryToDto)
+                    .collect(Collectors.toList());
+
+            return responseSuccess("getAllCategoriesSortedByDate", categories);
         }
 }

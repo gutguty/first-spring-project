@@ -7,7 +7,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.client.WebClient;
 
 @Configuration
-public class WebClientConfig {
+public class
+WebClientConfig {
     private final String SERVICE_URL;
 
     public WebClientConfig(@Value("${app.url.service-stock}") String SERVICE_URL) {
