@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import ru.gazprom.server.dto.StockDTO;
 import ru.gazprom.server.dto.StockRequest;
@@ -14,7 +15,9 @@ import ru.gazprom.server.exception.ValidationError;
 import ru.gazprom.server.exception.WebCustomClientError;
 import ru.gazprom.server.validator.StockValidation;
 
+import java.lang.reflect.Type;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import static ru.gazprom.server.utils.ResponseUtils.responseError;
@@ -25,15 +28,45 @@ public class StockService {
     private final WebClient webClient;
     private final StockValidation stockValidation;
 
+    private static final int BATCH_SIZE = 3;
+    private static final int MAX_CONCURRENT_BATCHES = 4;
+
     public StockService(WebClient webClient, StockValidation stockValidation) {
         this.webClient = webClient;
         this.stockValidation = stockValidation;
     }
 
-
     ParameterizedTypeReference<Response<StockDTO>> typeRef = new ParameterizedTypeReference<>() {
 
     };
+
+    ParameterizedTypeReference<Response<List<StockDTO>>> listTypeRef = new ParameterizedTypeReference<>() {
+
+    };
+
+    private Mono<List<StockDTO>> getStocksBatch(List<Long> batch) {
+        return webClient
+                .get()
+                .uri(uri -> uri
+                        .path("/api/stock/cards")
+                        .queryParam("ids", batch)
+                        .build()
+                )
+                .retrieve()
+                .bodyToMono(listTypeRef)
+                .timeout(Duration.ofSeconds(3))
+                .map(wrapper -> {
+                    if (!wrapper.isSuccess() || wrapper.getData() == null) {
+                        log.error("stock-service returned error for batch {}", batch);
+                        return List.<StockDTO>of();
+                    }
+                    return wrapper.getData();
+                })
+                .onErrorResume(e -> {
+                    log.error("Batch {} failed with error {}", batch, e.getMessage());
+                    return Mono.just(List.of());
+                });
+    }
 
     public Mono<Response<StockDTO>> getStockByCardId(Long cardId, String user) {
 
@@ -65,6 +98,15 @@ public class StockService {
                     Response<StockDTO> errorResponse = responseError("getStockByCardId", error);
                     return Mono.just(errorResponse);
                 });
+    }
+
+    public Mono<List<StockDTO>> getStocksByCardIds(List<Long> cardIds) {
+
+        return Flux.fromIterable(cardIds)
+                .buffer(BATCH_SIZE)
+                .flatMapSequential(this::getStocksBatch, MAX_CONCURRENT_BATCHES)
+                .flatMapIterable(list -> list)
+                .collectList();
     }
 
     public Mono<Response<StockDTO>> createStockById(StockRequest request, String user) {

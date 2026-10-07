@@ -61,7 +61,6 @@ public class CardService {
                 .orElseGet(() -> responseError("getCardById", new CardNotFoundError("Card with " + id + " id not found")));
     }
 
-
     @Transactional
     public Response<CardDTO> createCard(Card card) {
         Consumer<Card> logCreateCard = c -> log.info("Card created title={}, price={}", c.getTitle(), c.getPrice());

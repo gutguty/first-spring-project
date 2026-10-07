@@ -21,6 +21,13 @@ public class StockController {
         return stockService.getAllStock();
     }
 
+
+    @GetMapping("/stock/cards")
+    public Response<List<Stock>> getStocksByCardIds(@RequestParam List<Long> ids) {
+        return stockService.getStocksByCardIds(ids);
+    }
+
+
     @GetMapping("/stock/{id}")
     public Response<Stock> getStockById(@PathVariable Long id) {
         return stockService.getStockById(id);

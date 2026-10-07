@@ -159,3 +159,6 @@ GET http://localhost:8080/api/cards/sorted/title?sortType=DESC
 
 ###
 GET http://localhost:8080/api/categories/sorted?sortType=ASC
+
+###
+GET http://localhost:8080/api/cards/stocks?ids=1,2,3,4,5,6,7

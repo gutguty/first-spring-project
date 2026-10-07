@@ -4,6 +4,7 @@ package ru.gazprom.stockservice.service;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import ru.gazprom.stockservice.exception.*;
 import ru.gazprom.stockservice.model.Stock;
@@ -28,9 +29,26 @@ public class StockService {
     private final CreateStockValidation createStockValidation;
     private final UpdateStockValidation updateStockValidation;
 
+    private static final int MAX_IDS = 15;
+
     public Response<List<Stock>> getAllStock() {
         List<Stock> stocks = stockRepository.findAll();
         return responseSuccess("getAllStock", stocks);
+    }
+
+    public Response<List<Stock>> getStocksByCardIds(List<Long> ids) {
+
+        if (ids == null || ids.isEmpty()) {
+            return responseError("getStocksByCardIds", new CardIdNotFound("Ids is null", HttpStatus.BAD_REQUEST));
+        }
+
+        if (ids.size() > MAX_IDS) {
+            return responseError("getStocksByCardIds", new CardIdSizeError("Ids size bigger than max available size", HttpStatus.BAD_REQUEST));
+        }
+
+        List<Stock> stocks = stockRepository.findAllByCardIdIn(ids);
+
+        return responseSuccess("getStocksByCardIds", stocks);
     }
 
     public Response<Stock> getStockById(Long id) {

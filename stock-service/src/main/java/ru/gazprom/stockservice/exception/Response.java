@@ -14,6 +14,6 @@ public class Response<T> {
     private LocalDateTime time;
     private String methodName;
     private boolean success;
-    private T stock;
+    private T data;
     private List<ValidationError> listErrors;
 }
