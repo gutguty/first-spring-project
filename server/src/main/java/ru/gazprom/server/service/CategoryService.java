@@ -5,14 +5,22 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.gazprom.server.dto.CategoryDTO;
-import ru.gazprom.server.exception.CategoryNotFoundException;
+import ru.gazprom.server.enums.SortType;
+import ru.gazprom.server.exception.CategoryNotFoundError;
+import ru.gazprom.server.exception.FieldRequiredError;
+import ru.gazprom.server.exception.Response;
+import ru.gazprom.server.exception.ValidationError;
 import ru.gazprom.server.mapper.CategoryMapper;
 import ru.gazprom.server.model.Category;
-import ru.gazprom.server.repository.CardRepository;
 import ru.gazprom.server.repository.CategoryRepository;
+import ru.gazprom.server.utils.CategoryComparatorFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static ru.gazprom.server.utils.ResponseUtils.responseError;
+import static ru.gazprom.server.utils.ResponseUtils.responseSuccess;
 
 @Service
 @RequiredArgsConstructor
@@ -21,61 +29,83 @@ public class CategoryService {
 
     private final CategoryMapper categoryMapper;
 
-    public List<CategoryDTO> getAllCategories() {
-        return categoryRepository.findAll()
-                .stream()
+    public Response<List<CategoryDTO>> getAllCategories() {
+        List<CategoryDTO> categories = categoryRepository.findAll().stream()
                 .map(categoryMapper::categoryToDto)
                 .collect(Collectors.toList());
+
+        return responseSuccess("getAllCategories", categories);
     }
 
-    public CategoryDTO getCategoryById(Long id) {
+    public Response<CategoryDTO> getCategoryById(Long id) {
+        return categoryRepository.findById(id)
+                .map(category -> responseSuccess("getCategoryById", categoryMapper.categoryToDto(category)))
+                .orElseGet(() -> responseError("getCategoryById", (new CategoryNotFoundError("Category with " + id + " id not found"))));
+    }
+
+
+    @Transactional
+    public Response<CategoryDTO> createCategory(Category category) {
+        List<ValidationError> errors = new ArrayList<>();
+
+        if (category.getName() == null || category.getName().isBlank()) {
+            errors.add(new FieldRequiredError("name"));
+        } else if (categoryRepository.existsByName(category.getName())) {
+            errors.add(new FieldRequiredError("name  " + category.getName() + " already exists"));
+        }
+        if (!errors.isEmpty()) {
+            return responseError("createCategory", errors);
+        }
+
+        Category saved = categoryRepository.save(category);
+
+        return responseSuccess("createCategory", categoryMapper.categoryToDto(saved));
+    }
+
+    public Response<Void> deleteCategory(Long id) {
+
+        if (!categoryRepository.existsById(id)) {
+            return responseError("deleteCategory", new CategoryNotFoundError("Category with " + id + " id not found"));
+        }
+        categoryRepository.deleteById(id);
+
+        return responseSuccess("deleteCategory", null);
+    }
+
+    @Transactional
+    public Response<CategoryDTO> updateCategoryById(Long id, Category newCategory) {
 
         return categoryRepository.findById(id)
-                .map(categoryMapper::categoryToDto)
-                .orElseThrow(() -> new CategoryNotFoundException("Category with " + id + " id not found"));
+                .map(existCategory -> findByID(existCategory, newCategory))
+                .orElseGet(() -> responseError("updateCategoryById", new CategoryNotFoundError("Category with " + id + " id not found")));
     }
 
-    @Transactional
-    public CategoryDTO createCategory(Category category) {
-        if (category.getName() == null || category.getName().isBlank()) {
-            throw new IllegalArgumentException("Name is required");
+    private Response<CategoryDTO> findByID(Category existCategory, Category newCategory) {
+
+            List<ValidationError> errors = new ArrayList<>();
+
+            if (newCategory.getName() == null || newCategory.getName().isBlank()) {
+                errors.add(new FieldRequiredError("name"));
+            } else if (!existCategory.getName().equals(newCategory.getName())
+                    && categoryRepository.existsByName(newCategory.getName())) {
+                errors.add(new FieldRequiredError("name " + newCategory.getName() + " already exists"));
+            }
+
+            if (!errors.isEmpty()) {
+                return responseError("updateCategoryById", errors);
+            }
+
+            existCategory.setName(newCategory.getName());
+            Category updated = categoryRepository.save(existCategory);
+            return responseSuccess("updateCategoryById", categoryMapper.categoryToDto(updated));
         }
 
-        if (categoryRepository.existsByName(category.getName())) {
-            throw new IllegalArgumentException("Category with name " + category.getName() + " already exists");
+        public Response<List<CategoryDTO>> getAllCategoriesSortedByDate(SortType sortType) {
+            List<CategoryDTO> categories = categoryRepository.findAll().stream()
+                    .sorted(CategoryComparatorFactory.compareByCreatedAt(sortType))
+                    .map(categoryMapper::categoryToDto)
+                    .collect(Collectors.toList());
+
+            return responseSuccess("getAllCategoriesSortedByDate", categories);
         }
-
-        Category savedCategory = categoryRepository.save(category);
-
-        return categoryMapper.categoryToDto(savedCategory);
-    }
-
-    public void deleteCategory(Long id) {
-        if (!categoryRepository.existsById(id)) {
-            throw new CategoryNotFoundException("Category with " + id + " id not found");
-        }
-
-        categoryRepository.deleteById(id);
-    }
-
-    @Transactional
-    public CategoryDTO updateCategoryById(Long id, Category newCategory) {
-        Category existCategory = categoryRepository.findById(id)
-                .orElseThrow(() -> new CategoryNotFoundException("Category with " + id + " id not found"));
-
-        if (newCategory.getName() == null || newCategory.getName().isBlank()) {
-            throw new IllegalArgumentException("Name is required");
-        }
-
-        if (!existCategory.getName().equals(newCategory.getName()) && categoryRepository.existsByName(newCategory.getName())) {
-            throw new IllegalArgumentException("Category with name " + newCategory.getName() + " already exists");
-        }
-
-        existCategory.setName(newCategory.getName());
-
-        Category updatedCategory = categoryRepository.save(existCategory);
-
-        return categoryMapper.categoryToDto(updatedCategory);
-    }
-
 }

@@ -30,7 +30,10 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-data-jpa-test'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'io.micrometer:micrometer-registry-prometheus'
-    implementation("org.springframework.boot:spring-boot-starter-webflux:4.1.0")}
+    implementation("org.springframework.boot:spring-boot-starter-webflux:4.1.0")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:3.0.3")
+    implementation 'org.springframework.boot:spring-boot-starter-kafka'
+}
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
@@ -38,4 +41,8 @@ tasks.withType(JavaCompile).configureEach {
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+tasks.named('jar') {
+    enabled = false
 }

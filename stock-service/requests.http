@@ -1,3 +1,39 @@
 ###
-
 GET http://localhost:8082/api/stock
+
+
+###
+GET http://localhost:8082/api/stock/1
+
+
+###
+GET http://localhost:8082/api/stock/card/1
+User-Auth:admin
+
+
+###
+POST http://localhost:8082/api/stock
+User-Auth:admin
+Content-Type: application/json
+
+{
+  "quantity": -10,
+  "reserved": 0
+}
+
+###
+PUT http://localhost:8082/api/stock/1
+User-Auth:admin
+Content-Type: application/json
+
+{
+  "cardId": 1,
+  "quantity": 20,
+  "reserved": 10
+}
+
+###
+DELETE http://localhost:8082/api/stock/999
+
+###
+GET http://localhost:8082/api/stock/limit?limit=5

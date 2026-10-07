@@ -15,9 +15,9 @@ POST http://localhost:8080/api/cards
 Content-Type: application/json
 
 {
-  "title": "InvalidStock3",
-  "price": 60000,
-  "image": "InvalidStock3.png"
+  "title": "Furniture",
+  "price": 80000,
+  "image": "furniture.png"
 }
 
 ###
@@ -31,7 +31,7 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:8080/api/cards/1/stock
+GET http://localhost:8080/api/cards/2/stock
 User-Auth: admin
 
 ###
@@ -56,3 +56,109 @@ Content-Type: application/json
   "quantity": -10,
   "reserved": 0
 }
+
+###
+POST http://localhost:8080/api/users
+Content-Type: application/json
+
+{
+  "name": "anna"
+}
+
+###
+POST http://localhost:8080/api/addresses
+Content-Type: application/json
+
+{
+    "city": "Rostov",
+    "street": "Tekuchova",
+    "cityZone": "CENTER",
+    "user": {
+      "id": 3
+    }
+}
+
+###
+POST http://localhost:8080/api/delivery/price
+Content-Type: application/json
+
+{
+  "cardId": 2,
+  "addressId": 2,
+  "deliveryType": "COURIER"
+}
+
+###
+POST http://localhost:8080/api/delivery/price
+Content-Type: application/json
+
+{
+  "cardId": 1,
+  "addressId": 2,
+  "deliveryType": "PICK_UP"
+}
+
+###
+POST http://localhost:8080/api/delivery/price
+Content-Type: application/json
+
+{
+  "cardId": 5,
+  "addressId": 2,
+  "deliveryType": "COURIER"
+}
+###
+POST http://localhost:8080/api/order
+Content-Type: application/json
+
+{
+  "cardId": 2,
+  "addressId": 2,
+  "deliveryType": "PICK_UP",
+  "paymentType": "PARTNER_CARD"
+}
+###
+GET http://localhost:8082/api/stock/card/2
+User-Auth: admin
+
+###
+GET http://localhost:8082/api/stock/card/999
+User-Auth: admin
+
+###
+GET http://localhost:8082/api/stock/card/25
+User-Auth: admin
+
+###
+GET http://localhost:8082/api/stock/card/3
+User-Auth: bogdan
+
+###
+POST http://localhost:8080/api/kafka/orders?id=1
+
+###
+GET http://localhost:8080/api/kafka/stock?cardId=2
+
+### Payment
+POST http://localhost:8080/api/payment
+Content-Type: application/json
+
+{
+  "paymentType": "PARTNER_CARD",
+  "amount": 5000
+}
+
+###
+GET http://localhost:8080/api/cards/sorted?sortType=ASC
+
+###
+GET http://localhost:8080/api/cards/sorted/price?sortType=ASC
+
+###
+GET http://localhost:8080/api/cards/sorted/title?sortType=DESC
+
+###
+GET http://localhost:8080/api/categories/sorted?sortType=ASC
+
+###
+GET http://localhost:8080/api/cards/stocks?ids=1,2,3,4,5,6,7

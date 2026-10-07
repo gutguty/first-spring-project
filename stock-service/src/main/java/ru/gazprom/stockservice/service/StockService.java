@@ -3,71 +3,134 @@ package ru.gazprom.stockservice.service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import ru.gazprom.stockservice.exception.ForbiddenException;
-import ru.gazprom.stockservice.exception.StockNotFoundException;
+import ru.gazprom.stockservice.exception.*;
 import ru.gazprom.stockservice.model.Stock;
 import ru.gazprom.stockservice.repository.StockRepository;
 import ru.gazprom.stockservice.users.AllowedUsers;
 import ru.gazprom.stockservice.validator.CreateStockValidation;
+import ru.gazprom.stockservice.validator.UpdateStockValidation;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Predicate;
+
+import static ru.gazprom.stockservice.utils.ResponseUtils.responseError;
+import static ru.gazprom.stockservice.utils.ResponseUtils.responseSuccess;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class StockService {
     private final StockRepository stockRepository;
     private final AllowedUsers allowedUsers;
     private final CreateStockValidation createStockValidation;
+    private final UpdateStockValidation updateStockValidation;
 
-    public List<Stock> getAllStock() {
-        return stockRepository.findAll();
+    private static final int MAX_IDS = 15;
+
+    public Response<List<Stock>> getAllStock() {
+        List<Stock> stocks = stockRepository.findAll();
+        return responseSuccess("getAllStock", stocks);
     }
 
-    public Stock getStockById(Long id) {
-        return stockRepository.findById(id).orElseThrow(() -> new StockNotFoundException("Stock with " + id + " id not found"));
-    }
+    public Response<List<Stock>> getStocksByCardIds(List<Long> ids) {
 
-    public Stock getStockByCardId(Long cardId, String user) {
-        if (!allowedUsers.getAllowedUsers().contains(user)) {
-            throw new ForbiddenException("Access for " + user + " user is not allowed");
+        if (ids == null || ids.isEmpty()) {
+            return responseError("getStocksByCardIds", new CardIdNotFound("Ids is null", HttpStatus.BAD_REQUEST));
         }
 
-        return stockRepository.findByCardId(cardId).orElseThrow(() -> new StockNotFoundException("Stock with " + cardId + " id not found"));
+        if (ids.size() > MAX_IDS) {
+            return responseError("getStocksByCardIds", new CardIdSizeError("Ids size bigger than max available size", HttpStatus.BAD_REQUEST));
+        }
+
+        List<Stock> stocks = stockRepository.findAllByCardIdIn(ids);
+
+        return responseSuccess("getStocksByCardIds", stocks);
+    }
+
+    public Response<Stock> getStockById(Long id) {
+        Optional<Stock> stock = stockRepository.findById(id);
+
+        if (stock.isEmpty()) {
+            log.error("Stock in method getStockById NOT FOUND with id = {}", id);
+            return responseError("getStockById", new StockNotFoundError("Stock with id " + id + " not found"));
+        }
+
+        return responseSuccess("getStockById", stock.get());
+    }
+
+    public Response<Stock> getStockByCardId(Long cardId, String user) {
+        if (!allowedUsers.getAllowedUsers().contains(user)) {
+            log.error("FORBIDDEN in method getStockByCardId for user = {}", user);
+            return responseError("getStockByCardId", new ForbiddenError("Access for " + user + " user is not allowed"));
+        }
+
+        Optional<Stock> stock = stockRepository.findByCardId(cardId);
+        if (stock.isEmpty()) {
+            log.error("Stock in method getStockByCardId NOT FOUND with cardId = {}", cardId);
+            return responseError("getStockByCardId", new StockNotFoundError("Stock with cardId " + cardId + " not found"));
+        }
+
+        return responseSuccess("getStockByCardId", stock.get());
     }
 
     @Transactional
-    public Stock createStockById(Stock stock, String user) {
-        if (!allowedUsers.getAllowedUsers().contains(user)) {
-            throw new ForbiddenException("Access for " + user + " user is not allowed");
+    public Response<Stock> createStockById(Stock stock, String user) {
+
+        List<ValidationError> resultErrors = createStockValidation.validate(stock, user);
+
+        if (!resultErrors.isEmpty()) {
+            log.error("Validation FAILED in method createStockById in creating stock by {}",resultErrors.stream().map(ValidationError::getMessage).toList());
+            return responseError("createStockById", resultErrors);
         }
 
-        createStockValidation.validate(stock);
-
-        return stockRepository.save(stock);
+        stockRepository.save(stock);
+        return responseSuccess("createStockById", stock);
     }
 
-    public void deleteStockById(Long id) {
+    public Response<Void> deleteStockById(Long id) {
+
         if (!stockRepository.existsById(id)) {
-            throw new StockNotFoundException("Stock with " + id + " id not found");
+            log.error("Stock in method deleteStockById NOT FOUND with id = {}", id);
+            return responseError("deleteStockById", new StockNotFoundError("Stock with id " + id + " not found"));
         }
 
         stockRepository.deleteById(id);
+        return responseSuccess("deleteStockById", null);
     }
 
     @Transactional
-    public Stock updateStockById(Long id, Stock newStock) {
-        Stock existStock = stockRepository.findById(id)
-                .orElseThrow(() -> new StockNotFoundException("Stock with " + id + " is not found"));
-
-        if (newStock.getQuantity() != null) {
-            existStock.setQuantity(newStock.getQuantity());
+    public Response<Stock> updateStockById(Long id, Stock newStock) {
+        Optional<Stock> existStockOptional = stockRepository.findById(id);
+        if (existStockOptional.isEmpty()) {
+            log.error("Stock in method updateStockById NOT FOUND with id = {}", id);
+            return responseError("updateStockById", new StockNotFoundError("Stock with id " + id + " not found"));
         }
 
-        if (newStock.getReserved() != null) {
-            existStock.setReserved(newStock.getReserved());
+        List<ValidationError> errors = updateStockValidation.validate(newStock);
+        if (!errors.isEmpty()) {
+            log.error("ERRORS in method updateStockById {}", errors.stream().map(ValidationError::getMessage));
+            return responseError("updateStockById", errors);
         }
 
-        return stockRepository.save(existStock);
+        Stock existStock = existStockOptional.get();
+        existStock.setQuantity(newStock.getQuantity());
+        existStock.setReserved(newStock.getReserved());
+
+        Stock updated = stockRepository.save(existStock);
+        return responseSuccess("updateStockById", updated);
+    }
+
+    public Response<List<Stock>> getStockLessLimit(Integer limit) {
+        Predicate<Stock> isEnabledForReserve = stock -> (stock.getQuantity() - stock.getReserved()) < limit;
+
+        List<Stock> limitStockItems = stockRepository.findAll().stream()
+                .filter(isEnabledForReserve)
+                .toList();
+
+        return responseSuccess("getStockLessLimit", limitStockItems);
     }
 }
