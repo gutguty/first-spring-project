@@ -31,7 +31,7 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:8080/api/cards/2/stock
+GET http://localhost:8080/api/cards/17/stock
 User-Auth: admin
 
 ###
@@ -48,14 +48,18 @@ User-Auth: bogdan
 
 //25
 ###
-POST http://localhost:8080/api/cards/25/stock
+POST http://localhost:8080/api/cards/26/stock
 User-Auth: mockUser
 Content-Type: application/json
 
 {
-  "quantity": -10,
-  "reserved": 0
+  "quantity": 10,
+  "reserved": 20
 }
+
+###
+
+GET http://localhost:8080/api/users
 
 ###
 POST http://localhost:8080/api/users
@@ -74,9 +78,12 @@ Content-Type: application/json
     "street": "Tekuchova",
     "cityZone": "CENTER",
     "user": {
-      "id": 3
+      "id": 1
     }
 }
+
+###
+GET http://localhost:8080/api/addresses
 
 ###
 POST http://localhost:8080/api/delivery/price
@@ -162,3 +169,26 @@ GET http://localhost:8080/api/categories/sorted?sortType=ASC
 
 ###
 GET http://localhost:8080/api/cards/stocks?ids=1,2,3,4,5,6,7
+
+###
+GET http://localhost:8080/api/reports/stock/jdbc
+
+###
+GET http://localhost:8080/api/reports/stock
+
+###
+POST http://localhost:8080/ai/ask
+Content-Type: application/json
+
+{
+"prompt": "hey"
+}
+
+###
+POST http://localhost:8080/ai/description
+Content-Type: application/json
+
+{
+  "name": "Jordan",
+  "category": "Shoes"
+}

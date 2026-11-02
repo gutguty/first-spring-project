@@ -135,4 +135,10 @@ public class CardService {
 
         return responseSuccess("getAllCardsSortedByTitle", cards);
     }
+
+    public Response<List<CardDTO>> findByCategoryId(Long id) {
+        List<CardDTO> cards = cardRepository.findByCategoryId(id).stream().map(cardMapper::CardToDto).toList();
+
+        return responseSuccess("findByCategoryId", cards);
+    }
 }

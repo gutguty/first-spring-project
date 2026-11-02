@@ -110,6 +110,10 @@ services:
         -XX:+PrintCommandLineFlags
         -XX:+ExitOnOutOfMemoryError
         -Xlog:gc
+      SPRING_PROFILES_ACTIVE: dev
+      SPRING_AI_OLLAMA_BASE_URL: http://host.docker.internal:11434
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     volumes:
       - ./server/dumps:/dumps
     restart: unless-stopped

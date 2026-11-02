@@ -1,0 +1,14 @@
+databaseChangeLog:
+  - changeSet:
+      author: Bogdan Guty
+      id: 10
+      changes:
+        - sql:
+            sql: >
+              ALTER TABLE addresses
+              ALTER COLUMN city_zone TYPE smallint
+              USING CASE city_zone
+                WHEN 'CENTER' THEN 1
+                WHEN 'SUBURB' THEN 2
+                WHEN 'COUNTRYSIDE' THEN 3
+              END

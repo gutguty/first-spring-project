@@ -46,7 +46,7 @@ public class TimeServiceAspect {
             return result;
         } catch(Throwable exception) {
             stopWatch.stop();
-            log.info("{} {} FAILED AFTER = {} MS", className, methodName, stopWatch.getTotalTimeMillis());
+            log.error("{} {} FAILED AFTER = {} MS", className, methodName, stopWatch.getTotalTimeMillis());
             throw exception;
         } finally {
             Timer.builder("service.time.execution")

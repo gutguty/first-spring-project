@@ -18,7 +18,7 @@ public class OutboxPublisher {
     private final OutboxEventService outboxEventService;
     private final KafkaTemplate<String, String> kafkaTemplate;
 
-    @Scheduled(fixedDelay = 5000)
+    @Scheduled(fixedDelay = 10000)
     @Transactional
      public void publish() {
         List<OutboxEvent> outboxEventList = outboxEventService.findEventsToPublish();

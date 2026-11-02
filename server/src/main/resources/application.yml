@@ -1,0 +1,22 @@
+resilience4j:
+  circuitbreaker:
+    instances:
+      stockService:
+        registerHealthIndicator: true
+        slidingWindowType: COUNT_BASED
+        slidingWindowSize: 20
+        minimumNumberOfCalls: 10
+        failureRateThreshold: 70
+        permittedNumberOfCallsInHalfOpenState: 3
+        waitDurationInOpenState: 10s
+
+  retry:
+    instances:
+      stockService:
+        maxAttempts: 2
+        waitDuration: 300ms
+
+  timelimiter:
+    instances:
+      stockService:
+        timeoutDuration: 7s

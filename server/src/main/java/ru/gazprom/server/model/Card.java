@@ -3,7 +3,6 @@ package ru.gazprom.server.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.math.BigDecimal;
 
@@ -27,7 +26,7 @@ public class Card extends Audit {
     @Column(length = 500)
     private String image;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name="category_id")
     private Category category;
 }

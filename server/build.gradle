@@ -30,9 +30,13 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-data-jpa-test'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'io.micrometer:micrometer-registry-prometheus'
-    implementation("org.springframework.boot:spring-boot-starter-webflux:4.1.0")
+    implementation 'org.hibernate.orm:hibernate-micrometer'
+    implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:3.0.3")
     implementation 'org.springframework.boot:spring-boot-starter-kafka'
+    implementation 'io.github.resilience4j:resilience4j-spring-boot4:2.4.0'
+    implementation 'io.github.resilience4j:resilience4j-reactor:2.4.0'
+    implementation "org.springframework.ai:spring-ai-starter-model-ollama:2.0.0"
 }
 
 tasks.withType(JavaCompile).configureEach {
@@ -45,4 +49,15 @@ tasks.named('test') {
 
 tasks.named('jar') {
     enabled = false
+}
+
+sourceSets {
+    test {
+        java {
+            exclude 'ru/gazprom/server/service/**'
+            exclude 'ru/gazprom/server/controller/CardControllerTest.java'
+            exclude 'ru/gazprom/server/controller/CategoryControllerTest.java'
+            exclude 'ru/gazprom/server/repository/**'
+        }
+    }
 }

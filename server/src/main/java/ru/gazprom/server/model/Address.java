@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.gazprom.server.enums.CityZone;
+import ru.gazprom.server.utils.CityZoneConverter;
 
 @Entity
 @Data
@@ -22,7 +23,7 @@ public class Address extends Audit {
     @Column(nullable = false)
     private String street;
 
-    @Enumerated(EnumType.STRING)
+    @Convert(converter = CityZoneConverter.class)
     @Column(nullable = false)
     private CityZone cityZone;
 

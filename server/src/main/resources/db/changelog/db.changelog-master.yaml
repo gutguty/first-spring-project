@@ -17,3 +17,5 @@ databaseChangeLog:
       file: db/changelog/changesets/create-address-table.yaml
   - include:
       file: db/changelog/changesets/create-outbox-table.yaml
+  - include:
+      file: db/changelog/changesets/modify-address-city-zone.yaml
